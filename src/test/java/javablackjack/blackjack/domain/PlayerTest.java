@@ -3,8 +3,6 @@ package javablackjack.blackjack.domain;
 import javablackjack.blackjack.BaseTest;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class PlayerTest extends BaseTest {
 
     @Test
@@ -14,4 +12,16 @@ public class PlayerTest extends BaseTest {
         softly.assertThat(player.hasMoney()).isEqualTo(3);
     }
 
+    @Test
+    public void give_card_to_player() {
+        CardDeck cardDeck = new CardDeck();
+        Player player = new Player();
+        player.drawCard(cardDeck);
+        player.drawCard(cardDeck);
+
+        softly.assertThat(player.getCards().get(0)).isNotNull();
+        System.out.println(player.getCards().get(0));
+        System.out.println(player.getCards().get(1));
+        softly.assertThat(cardDeck.getCards().size()).isEqualTo(50);
+    }
 }

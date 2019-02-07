@@ -1,25 +1,32 @@
 package javablackjack.blackjack.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CardDeck {
-    public List<EnumCard> cards = new ArrayList<>();
+    public List<Card> cards = new ArrayList<>();
 
     public CardDeck() {
-        for (EnumCard card : EnumCard.values()) {
-            cards.add(card.seta("클로버"));
-            cards.add(card.seta("다이아"));
-            cards.add(card.seta("하트"));
-            cards.add(card.seta("스페이드"));
+        for (Number num : Number.values()) {
+            addPattern(num);
+        }
+        Collections.shuffle(cards);
+    }
+
+    private void addPattern(Number num) {
+        for (CardPattern value : CardPattern.values()) {
+            cards.add(new Card(num, value));
         }
     }
 
-    public List<EnumCard> getCards() {
+    public List<Card> getCards() {
         return cards;
     }
 
-    public void setCards(List<EnumCard> cards) {
+    public void setCards(List<Card> cards) {
         this.cards = cards;
+    }
+
+    public Card drawCard() {
+        return cards.remove(0);
     }
 }
