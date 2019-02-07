@@ -7,7 +7,7 @@ public class PlayerTest extends BaseTest {
 
     @Test
     public void player_have_money() {
-        Player player = new Player();
+        Player player = new Player("bb");
         player.setMoney(3);
         softly.assertThat(player.hasMoney()).isEqualTo(3);
     }
@@ -15,7 +15,7 @@ public class PlayerTest extends BaseTest {
     @Test
     public void give_card_to_player() {
         CardDeck cardDeck = new CardDeck();
-        Player player = new Player();
+        Player player = new Player("aa");
         player.drawCard(cardDeck);
         player.drawCard(cardDeck);
 

@@ -15,6 +15,10 @@ public enum Number {
         return num;
     }
 
+    public String getStringNum() {
+        return stringNum;
+    }
+
     @Override
     public String toString() {
         return "Number{" +

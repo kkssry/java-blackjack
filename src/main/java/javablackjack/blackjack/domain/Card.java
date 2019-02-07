@@ -9,11 +9,19 @@ public class Card {
         this.pattern = pattern;
     }
 
+    public int getNum() {
+        return num.getNum();
+    }
+
     @Override
     public String toString() {
         return "Card{" +
                 "num=" + num +
                 ", pattern=" + pattern +
                 '}';
+    }
+
+    public String getStringNum() {
+        return num.getStringNum();
     }
 }
