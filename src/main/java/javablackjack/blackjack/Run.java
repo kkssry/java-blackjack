@@ -16,8 +16,8 @@ public class Run {
 
         while (blackjackGame.isUserTurnTrue()) {
             blackjackGame.UserChoiceHitOrStand(input.choiceHitOrstand());
-        }
 
+        }
 
         // 히트 오어 스텐드 1 , 2
         // 1,2

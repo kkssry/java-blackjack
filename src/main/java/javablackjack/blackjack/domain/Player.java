@@ -8,12 +8,13 @@ public class Player {
     private List<Card> cards = new ArrayList<>();
     private String name;
 
+
     public Player(String userName) {
         this.name = userName;
     }
 
-    public void drawCard(CardDeck cardDeck) {
-        this.cards.add(cardDeck.drawCard());
+    public void drawCard(Card card) {
+        this.cards.add(card);
     }
 
     public int score() {
@@ -51,5 +52,9 @@ public class Player {
                 ", cards=" + cards +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public boolean isBurst() {
+        return score() > 21;
     }
 }
