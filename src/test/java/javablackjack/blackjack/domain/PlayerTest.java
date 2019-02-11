@@ -16,8 +16,8 @@ public class PlayerTest extends BaseTest {
     public void give_card_to_player() {
         CardDeck cardDeck = new CardDeck();
         Player player = new Player("aa");
-        player.drawCard(cardDeck);
-        player.drawCard(cardDeck);
+        player.drawCard(cardDeck.drawCard());
+        player.drawCard(cardDeck.drawCard());
 
         softly.assertThat(player.getCards().get(0)).isNotNull();
         System.out.println(player.getCards().get(0));
