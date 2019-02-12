@@ -10,9 +10,6 @@ public enum Number {
         this.num = num;
     }
 
-    public int isSpecialA(boolean isA) {
-        return isA? 1 : 11;
-    }
 
     public int getNum() {
         return num;

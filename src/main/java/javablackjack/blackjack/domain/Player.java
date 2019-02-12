@@ -10,7 +10,8 @@ public class Player {
     private String name;
 
 
-    public Player(String userName) {
+    public
+    Player(String userName) {
         this.name = userName;
     }
 
@@ -55,10 +56,12 @@ public class Player {
 
     public boolean compareScore(Player dealer) {
         if (this.isBurst()) {
+            if (showScore() > dealer.score()) {
+                return true;
+            }
             return false;
         }
-
-        return this.score() > dealer.score();
+        return showScore() > dealer.score();
     }
 
     public void setOneA() {
@@ -80,4 +83,7 @@ public class Player {
                 '}';
     }
 
+    public boolean isBlackjack() {
+        return score()==21;
+    }
 }

@@ -7,17 +7,19 @@ import javablackjack.blackjack.domain.Player;
 
 public class BlackjackGame {
     private Player user;
-    private Player dealer = new Player("dealer");
+    private Player dealer;
 
     // 이걸 밖으로 빼면 렌덤 태스트가 가능하다. 의존관계 분리
     private CardDeck cardDeck = new CardDeck();
     private boolean userTurn = true;
 // 인스턴스변수 많아지면 뽑아라?
 
-    public void initUser(String userName) {
-        this.user = new Player(userName);
+
+    public void initUser(Player player, Player dealer) {
+        this.user = player;
+        this.dealer = dealer;
     }
-    
+
     //todo 줄이고싶다.
     public void startGame() {
         dealer.drawCard(cardDeck.drawCard());
@@ -87,5 +89,9 @@ public class BlackjackGame {
 
     public boolean isDealerBurst() {
         return dealer.isBurst();
+    }
+
+    public void draw() {
+        System.out.println("비겼습니다.");
     }
 }

@@ -42,6 +42,20 @@ public class PlayerTest extends BaseTest {
     }
 
     @Test
+    public void player_burst_with_A2() {
+        Player player = new Player("스컬");
+        player.drawCard(new Card(Number.A,CardPattern.CLOVER));
+        player.drawCard(new Card(Number.SEVEN,CardPattern.CLOVER));
+        player.drawCard(new Card(Number.SIX,CardPattern.CLOVER));
+
+
+        softly.assertThat(player.isBurst()).isTrue();
+        softly.assertThat(player.showScore()).isEqualTo(14);
+        softly.assertThat(player.isBurst()).isFalse();
+
+    }
+
+    @Test
     public void player_burst_with_A3() {
         Player player = new Player("스컬");
         player.drawCard(new Card(Number.A,CardPattern.CLOVER));

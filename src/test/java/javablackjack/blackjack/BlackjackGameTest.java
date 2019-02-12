@@ -1,5 +1,9 @@
 package javablackjack.blackjack;
 
+import javablackjack.blackjack.domain.Card;
+import javablackjack.blackjack.domain.CardPattern;
+import javablackjack.blackjack.domain.Number;
+import javablackjack.blackjack.domain.Player;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -12,7 +16,9 @@ public class BlackjackGameTest extends BaseTest {
     public void 딜러셋업() {
         BlackjackGame blackjackGame = new BlackjackGame();
         //player
-        blackjackGame.initUser("skull");
+        Player player = new Player("skull");
+        Player dealer = new Player("dealer");
+        blackjackGame.initUser(player, dealer);
 
         //카드를 블랙젝 게임에게 전달
         blackjackGame.startGame();
@@ -30,7 +36,21 @@ public class BlackjackGameTest extends BaseTest {
     public void user_win() {
         // 유저는 20 딜러는 19로 패배
         BlackjackGame blackjackGame = new BlackjackGame();
+        Player player = new Player("skull");
+        Player dealer = new Player("dealer");
 
+        player.drawCard(Card.ELEVEN_A);
+        player.drawCard(new Card(Number.NINE, CardPattern.SPADE));
+
+        dealer.drawCard(Card.ELEVEN_A);
+        dealer.drawCard(new Card(Number.EIGHT, CardPattern.SPADE));
+
+        blackjackGame.initUser(player, dealer);
+
+        blackjackGame.winner();
+
+        softly.assertThat(player.score()).isEqualTo(20);
+        softly.assertThat(dealer.score()).isEqualTo(19);
     }
 
 
@@ -39,23 +59,88 @@ public class BlackjackGameTest extends BaseTest {
     @Test
     public void user_blackjack_win() {
         //유저가 21나와서 승리
+        BlackjackGame blackjackGame = new BlackjackGame();
+        Player player = new Player("skull");
+        Player dealer = new Player("dealer");
+
+        player.drawCard(Card.ELEVEN_A);
+        player.drawCard(new Card(Number.K, CardPattern.SPADE));
+
+        dealer.drawCard(Card.ELEVEN_A);
+        dealer.drawCard(new Card(Number.EIGHT, CardPattern.SPADE));
+
+        blackjackGame.initUser(player, dealer);
+
+        blackjackGame.winner();
+
+        softly.assertThat(player.score()).isEqualTo(21);
+        softly.assertThat(dealer.score()).isEqualTo(19);
     }
 
 
     //3유저 패배
     @Test
     public void dealer_win() {
-        //유저는 17 딜러는 20 승리
+        //유저는 17 딜러는 19 승리
+        BlackjackGame blackjackGame = new BlackjackGame();
+        Player player = new Player("skull");
+        Player dealer = new Player("dealer");
+
+        player.drawCard(Card.ELEVEN_A);
+        player.drawCard(new Card(Number.SIX, CardPattern.SPADE));
+
+        dealer.drawCard(Card.ELEVEN_A);
+        dealer.drawCard(new Card(Number.EIGHT, CardPattern.SPADE));
+
+        blackjackGame.initUser(player, dealer);
+
+        blackjackGame.winner();
+
+        softly.assertThat(player.score()).isEqualTo(17);
+        softly.assertThat(dealer.score()).isEqualTo(19);
     }
 
     //4 딜러 블랙잭 -> 딜러 바로 승리!
     @Test
     public void dealer_blackjack_win() {
         //딜러 블랙잭 -> 딜러 바로 승리!
+        BlackjackGame blackjackGame = new BlackjackGame();
+        Player player = new Player("skull");
+        Player dealer = new Player("dealer");
+
+        player.drawCard(Card.ELEVEN_A);
+        player.drawCard(new Card(Number.SIX, CardPattern.SPADE));
+
+        dealer.drawCard(Card.ELEVEN_A);
+        dealer.drawCard(new Card(Number.K, CardPattern.SPADE));
+
+        blackjackGame.initUser(player, dealer);
+
+        blackjackGame.winner();
+
+        softly.assertThat(player.score()).isEqualTo(17);
+        softly.assertThat(dealer.score()).isEqualTo(21);
     }
 
     @Test
     public void game_push() {
         //둘다 블랙잭
+        BlackjackGame blackjackGame = new BlackjackGame();
+        Player player = new Player("skull");
+        Player dealer = new Player("dealer");
+
+        player.drawCard(Card.ELEVEN_A);
+        player.drawCard(new Card(Number.K, CardPattern.SPADE));
+
+        dealer.drawCard(Card.ELEVEN_A);
+        dealer.drawCard(new Card(Number.Q, CardPattern.SPADE));
+
+        blackjackGame.initUser(player, dealer);
+
+
+        blackjackGame.winner();
+
+        softly.assertThat(player.score()).isEqualTo(17);
+        softly.assertThat(dealer.score()).isEqualTo(21);
     }
 }
