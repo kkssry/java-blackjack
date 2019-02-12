@@ -3,6 +3,7 @@ package javablackjack.blackjack.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Player {
     private int money = 20;
     private List<Card> cards = new ArrayList<>();
@@ -17,20 +18,20 @@ public class Player {
         this.cards.add(card);
     }
 
+    public int showScore() {
+        if (this.isBurst()) {
+            setOneA();
+        }
+        return score();
+    }
+
     public int score() {
         return cards.stream().mapToInt(Card::getNum).sum();
+
     }
 
     public List<Card> getCards() {
         return cards;
-    }
-
-    public void setCards(List<Card> cards) {
-        this.cards = cards;
-    }
-
-    public void setMoney(int money) {
-        this.money = money;
     }
 
     public int hasMoney() {
@@ -41,8 +42,33 @@ public class Player {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+
+    public boolean isBurst() {
+        //에이를 가지고 있니?
+        // - 10;
+        return score() > 21;
+    }
+
+    public Card getCard(int index) {
+        return cards.get(index);
+    }
+
+    public boolean compareScore(Player dealer) {
+        if (this.isBurst()) {
+            return false;
+        }
+
+        return this.score() > dealer.score();
+    }
+
+    public void setOneA() {
+        if (isElevenA()) {
+            cards.get(cards.indexOf(Card.ELEVEN_A)).setIsOneA();
+        }
+    }
+
+    public boolean isElevenA() {
+        return cards.contains(Card.ELEVEN_A);
     }
 
     @Override
@@ -54,7 +80,4 @@ public class Player {
                 '}';
     }
 
-    public boolean isBurst() {
-        return score() > 21;
-    }
 }

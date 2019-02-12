@@ -22,11 +22,8 @@ public class CardDeck {
         return cards;
     }
 
-    public void setCards(List<Card> cards) {
-        this.cards = cards;
-    }
-
     public Card drawCard() {
         return cards.remove(0);
     }
+
 }

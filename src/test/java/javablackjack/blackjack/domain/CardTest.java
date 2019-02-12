@@ -17,12 +17,16 @@ public class CardTest extends BaseTest {
     @Test
     public void card_num_vo_test() {
         Number num = Number.A;
-        softly.assertThat(num.getNum()).isEqualTo(1);
+        softly.assertThat(num.getNum()).isEqualTo(11);
 
         Number num1 = Number.K;
         softly.assertThat(num1.getNum()).isEqualTo(10);
 
-
     }
 
+    @Test
+    public void card_string_test() {
+        Number num = Number.A;
+        softly.assertThat(num.name()).isEqualTo("A");
+    }
 }
