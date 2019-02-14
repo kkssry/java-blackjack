@@ -13,11 +13,13 @@ public class BlackjackGame {
 
     private Player user;
     private Player dealer;
+    private boolean userTurn = true;
 
     // todo 이걸 밖으로 빼면 렌덤 태스트가 가능하다. 의존관계 분리
     private CardDeck cardDeck = new CardDeck();
 
-    private boolean userTurn = true;
+    // 플레이어에게 넘겨
+
     private GameResult result = GameResult.DEAULF;
     // todo 인스턴스 변수 어떻게 하면 줄일 수 있을까?
 
@@ -33,24 +35,29 @@ public class BlackjackGame {
         user.drawCard(cardDeck.drawCard());
         dealer.drawCard(cardDeck.drawCard());
         user.drawCard(cardDeck.drawCard());
-        showCard();
-        checkBlackjack();
     }
 
     public String checkBlackjack() {
-        if (user.isBlackjack()) {
+        if (user.isBlackjack() && dealer.isBlackjack()) {
+            result = GameResult.PUSH;
             userTurn = false;
-            if (dealer.isBlackjack()) {
-                result = GameResult.PUSH;
-                return result.getGameResult();
-            }
+            return result.getGameResult();
+        }
+
+        if (user.isBlackjack() && !dealer.isBlackjack()) {
             result = GameResult.USUER_WIN;
+            userTurn = false;
             return result.getGameResult();
         }
-        if (dealer.isBlackjack()) {
+
+        if (!user.isBlackjack() && dealer.isBlackjack()) {
             result = GameResult.DEALER_WIN;
+            userTurn = false;
             return result.getGameResult();
         }
+
+        System.out.println("딜러의 총합 : " + dealer.score());
+        System.out.println("유저의 총합 : " + user.score());
         return result.getGameResult();
     }
 
@@ -66,25 +73,44 @@ public class BlackjackGame {
     //todo view 단으로 이동, refactoring
     public void winner() {
         System.out.println();
-        System.out.println(result.getGameResult());
-
-        if (result.equals(GameResult.DEAULF)) {
+        // 1.유저가 버스트가 안나거나 2.유저가 블랙잭이 아니거나 3.딜러가 버스트 안나거나 4.딜러가 블랙잭이 아닐때
+        // 점수 비교
+        if (!isUserTurnTrue() && result.equals(GameResult.DEAULF)) {
             if (user.compareScore(dealer)) {
-                System.out.println("우승자는 " + user.getName());
-            } else {
-                System.out.println("우승자는 " + dealer.getName());
+                result = GameResult.USUER_WIN;
+            }
+
+            if (dealer.compareScore(user)) {
+                result = GameResult.DEALER_WIN;
+            }
+
+            if (dealer.score() == user.score()) {
+                result = GameResult.PUSH;
             }
         }
+
 
         System.out.println("딜러의 총합 : " + dealer.score());
         System.out.println("유저의 총합 : " + user.score());
     }
 
+    //todo : 리팩토링 해야함
+    public void dealerTurn() {
+        if (result.equals(GameResult.DEAULF)) {
+            while (dealer.score() < 17) {
+                dealer.drawCard(cardDeck.drawCard());
+                showCard();
+            }
+        }
+        if (dealer.isBurst()) {
+            result = GameResult.USUER_WIN;
+        }
+    }
 
+    //todo : 리팩토링 해야함
     public void userChoiceHitOrStand(int choiceNumber) {
         if (choiceNumber == 1) {
             user.drawCard(cardDeck.drawCard());
-            user.setOneA();
             /////////
             if (user.isBurst()) {
                 result = GameResult.DEALER_WIN;
@@ -101,23 +127,7 @@ public class BlackjackGame {
         return userTurn;
     }
 
-    public void dealerTurn() {
-        while (dealerScore() <= 16) {
-            dealer.drawCard(cardDeck.drawCard());
-            dealer.setOneA();
-        }
+    public GameResult getResult() {
+        return result;
     }
-
-    public boolean isDealerTurnFinish() {
-        return dealer.score() > 16;
-    }
-
-    public int dealerScore() {
-        return dealer.score();
-    }
-
-    public boolean isDealerBurst() {
-        return dealer.isBurst();
-    }
-
 }

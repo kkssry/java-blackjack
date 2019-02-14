@@ -11,12 +11,14 @@ public class Player {
     private String name;
 
 
+
     public Player(String userName) {
         this.name = userName;
     }
 
     public void drawCard(Card card) {
         this.cards.add(card);
+        setOneA();
     }
 
     public int score() {
@@ -41,9 +43,12 @@ public class Player {
         return cards.get(index);
     }
 
-    public boolean compareScore(Player dealer) {
-        setOneA();
-        return score() > dealer.score();
+    public boolean compareScore(Player otherPlayer) {
+//        //setOneA();
+//        if (otherPlayer.isBlackjack()) {
+//
+//        }
+        return score() > otherPlayer.score();
     }
 
     public void setOneA() {
@@ -59,6 +64,16 @@ public class Player {
     public boolean isBlackjack() {
         return score() == 21;
     }
+
+//    public boolean checkUserTurn() {
+//        if (isBlackjack()) {
+//            return userTurn = false;
+//        }
+//        if (isBurst()) {
+//            return userTurn = false;
+//        }
+//        return userTurn;
+//    }
 
     @Override
     public String toString() {

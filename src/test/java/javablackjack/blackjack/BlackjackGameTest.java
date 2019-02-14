@@ -24,9 +24,9 @@ public class BlackjackGameTest extends BaseTest {
         blackjackGame.startGame();
         blackjackGame.userChoiceHitOrStand(2);
         blackjackGame.dealerTurn();
-        log.debug("딜러숫자 합 : {}", blackjackGame.dealerScore());
-        softly.assertThat(blackjackGame.isDealerTurnFinish()).isTrue();
-        log.debug("딜러버스트여부 : {}", blackjackGame.isDealerBurst());
+        log.debug("딜러숫자 합 : {}", dealer.score());
+        softly.assertThat(dealer.score() > 16).isTrue();
+        log.debug("딜러버스트여부 : {}", dealer.isBurst());
     }
 
     @Test
