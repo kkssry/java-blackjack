@@ -18,7 +18,7 @@ public class BlackjackGame {
     private CardDeck cardDeck = new CardDeck();
 
     private boolean userTurn = true;
-    private String result = "";
+    private GameResult result = GameResult.DEAULF;
     // todo 인스턴스 변수 어떻게 하면 줄일 수 있을까?
 
 
@@ -41,14 +41,17 @@ public class BlackjackGame {
         if (user.isBlackjack()) {
             userTurn = false;
             if (dealer.isBlackjack()) {
-                return result = "push";
+                result = GameResult.PUSH;
+                return result.getGameResult();
             }
-            return result = "userWin";
+            result = GameResult.USUER_WIN;
+            return result.getGameResult();
         }
         if (dealer.isBlackjack()) {
-            result = "dealerWin";
+            result = GameResult.DEALER_WIN;
+            return result.getGameResult();
         }
-        return result;
+        return result.getGameResult();
     }
 
     // todo : 유저가 모두 스탠드 할때 총합 출력용도 view 단으로 이동
@@ -63,20 +66,9 @@ public class BlackjackGame {
     //todo view 단으로 이동, refactoring
     public void winner() {
         System.out.println();
+        System.out.println(result.getGameResult());
 
-        if (this.result.equals("push")) {
-            System.out.println("비겼습니다.");
-        }
-
-        if (result.equals("userWin")) {
-            System.out.println("유저가 이겼습니다.");
-        }
-
-        if (result.equals("dealerWin")) {
-            System.out.println("딜러가 이겼습니다.");
-        }
-
-        if (result.equals("")) {
+        if (result.equals(GameResult.DEAULF)) {
             if (user.compareScore(dealer)) {
                 System.out.println("우승자는 " + user.getName());
             } else {
@@ -95,7 +87,7 @@ public class BlackjackGame {
             user.setOneA();
             /////////
             if (user.isBurst()) {
-                result = "dealerWin";
+                result = GameResult.DEALER_WIN;
                 userTurn = false;
             }
             showCard();
@@ -128,7 +120,4 @@ public class BlackjackGame {
         return dealer.isBurst();
     }
 
-    public void push() {
-        System.out.println("비겼습니다.");
-    }
 }

@@ -136,4 +136,60 @@ public class BlackjackGameTest extends BaseTest {
         softly.assertThat(player.score()).isEqualTo(21);
         softly.assertThat(dealer.score()).isEqualTo(21);
     }
+
+    @Test
+    public void checkblackjack() {
+        //둘다 블랙잭
+        BlackjackGame blackjackGame = new BlackjackGame();
+        Player player = new Player("skull");
+        Player dealer = new Player("dealer");
+
+        player.drawCard(Card.ELEVEN_A);
+        player.drawCard(new Card(Number.K, CardPattern.SPADE));
+
+        dealer.drawCard(Card.ELEVEN_A);
+        dealer.drawCard(new Card(Number.Q, CardPattern.SPADE));
+
+        blackjackGame.initUser(player, dealer);
+        softly.assertThat(blackjackGame.checkBlackjack()).isEqualTo(GameResult.PUSH.getGameResult());
+
+    }
+
+    @Test
+    public void checkblackjack_user() {
+        //유저 블랙잭
+        BlackjackGame blackjackGame = new BlackjackGame();
+        Player player = new Player("skull");
+        Player dealer = new Player("dealer");
+
+        player.drawCard(Card.ELEVEN_A);
+        player.drawCard(new Card(Number.K, CardPattern.SPADE));
+
+        dealer.drawCard(Card.ELEVEN_A);
+        dealer.drawCard(new Card(Number.A, CardPattern.SPADE));
+
+        blackjackGame.initUser(player, dealer);
+        softly.assertThat(blackjackGame.checkBlackjack()).isEqualTo(GameResult.USUER_WIN.getGameResult());
+
+    }
+
+    @Test
+    public void checkblackjack_dealer() {
+        //딜러 블랙잭
+        BlackjackGame blackjackGame = new BlackjackGame();
+        Player player = new Player("skull");
+        Player dealer = new Player("dealer");
+
+        player.drawCard(Card.ELEVEN_A);
+        player.drawCard(new Card(Number.FOUR, CardPattern.SPADE));
+
+        dealer.drawCard(Card.ELEVEN_A);
+        dealer.drawCard(new Card(Number.K, CardPattern.SPADE));
+
+        blackjackGame.initUser(player, dealer);
+        softly.assertThat(blackjackGame.checkBlackjack()).isEqualTo(GameResult.DEALER_WIN.getGameResult());
+
+    }
+
+
 }
