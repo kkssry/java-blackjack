@@ -6,24 +6,17 @@ import java.util.List;
 
 public class Player {
     private int money = 20;
+    //todo : 1급 객체로 리팩토링 해야함.
     private List<Card> cards = new ArrayList<>();
     private String name;
 
 
-    public
-    Player(String userName) {
+    public Player(String userName) {
         this.name = userName;
     }
 
     public void drawCard(Card card) {
         this.cards.add(card);
-    }
-
-    public int showScore() {
-        if (this.isBurst()) {
-            setOneA();
-        }
-        return score();
     }
 
     public int score() {
@@ -35,18 +28,12 @@ public class Player {
         return cards;
     }
 
-    public int hasMoney() {
-        return money;
-    }
-
     public String getName() {
         return name;
     }
 
 
     public boolean isBurst() {
-        //에이를 가지고 있니?
-        // - 10;
         return score() > 21;
     }
 
@@ -55,23 +42,22 @@ public class Player {
     }
 
     public boolean compareScore(Player dealer) {
-        if (this.isBurst()) {
-            if (showScore() > dealer.score()) {
-                return true;
-            }
-            return false;
-        }
-        return showScore() > dealer.score();
+        setOneA();
+        return score() > dealer.score();
     }
 
     public void setOneA() {
-        if (isElevenA()) {
+        if (this.isBurst() && isElevenA()) {
             cards.get(cards.indexOf(Card.ELEVEN_A)).setIsOneA();
         }
     }
 
     public boolean isElevenA() {
         return cards.contains(Card.ELEVEN_A);
+    }
+
+    public boolean isBlackjack() {
+        return score() == 21;
     }
 
     @Override
@@ -81,9 +67,5 @@ public class Player {
                 ", cards=" + cards +
                 ", name='" + name + '\'' +
                 '}';
-    }
-
-    public boolean isBlackjack() {
-        return score()==21;
     }
 }

@@ -29,9 +29,6 @@ public class BlackjackGameTest extends BaseTest {
         log.debug("딜러버스트여부 : {}", blackjackGame.isDealerBurst());
     }
 
-    //game
-    // 유저 승리
-
     @Test
     public void user_win() {
         // 유저는 20 딜러는 19로 패배
@@ -52,9 +49,6 @@ public class BlackjackGameTest extends BaseTest {
         softly.assertThat(player.score()).isEqualTo(20);
         softly.assertThat(dealer.score()).isEqualTo(19);
     }
-
-
-    //2유저 블랙잭
 
     @Test
     public void user_blackjack_win() {
@@ -100,10 +94,8 @@ public class BlackjackGameTest extends BaseTest {
         softly.assertThat(dealer.score()).isEqualTo(19);
     }
 
-    //4 딜러 블랙잭 -> 딜러 바로 승리!
     @Test
     public void dealer_blackjack_win() {
-        //딜러 블랙잭 -> 딜러 바로 승리!
         BlackjackGame blackjackGame = new BlackjackGame();
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
@@ -137,10 +129,11 @@ public class BlackjackGameTest extends BaseTest {
 
         blackjackGame.initUser(player, dealer);
 
-
+        blackjackGame.checkBlackjack();
         blackjackGame.winner();
 
-        softly.assertThat(player.score()).isEqualTo(17);
+
+        softly.assertThat(player.score()).isEqualTo(21);
         softly.assertThat(dealer.score()).isEqualTo(21);
     }
 }

@@ -3,16 +3,23 @@ package javablackjack.blackjack;
 import javablackjack.blackjack.domain.Card;
 import javablackjack.blackjack.domain.CardDeck;
 import javablackjack.blackjack.domain.Player;
+import org.slf4j.Logger;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 
 public class BlackjackGame {
+    private static final Logger log = getLogger(BlackjackGame.class);
+
     private Player user;
     private Player dealer;
 
-    // 이걸 밖으로 빼면 렌덤 태스트가 가능하다. 의존관계 분리
+    // todo 이걸 밖으로 빼면 렌덤 태스트가 가능하다. 의존관계 분리
     private CardDeck cardDeck = new CardDeck();
+
     private boolean userTurn = true;
-// 인스턴스변수 많아지면 뽑아라?
+    private String result = "";
+    // todo 인스턴스 변수 어떻게 하면 줄일 수 있을까?
 
 
     public void initUser(Player player, Player dealer) {
@@ -26,40 +33,69 @@ public class BlackjackGame {
         user.drawCard(cardDeck.drawCard());
         dealer.drawCard(cardDeck.drawCard());
         user.drawCard(cardDeck.drawCard());
+        showCard();
+        checkBlackjack();
+    }
+
+    public String checkBlackjack() {
+        if (user.isBlackjack()) {
+            userTurn = false;
+            if (dealer.isBlackjack()) {
+                return result = "push";
+            }
+            return result = "userWin";
+        }
+        if (dealer.isBlackjack()) {
+            result = "dealerWin";
+        }
+        return result;
     }
 
     // todo : 유저가 모두 스탠드 할때 총합 출력용도 view 단으로 이동
     public void showCard() {
         System.out.println(user.getName());
-        for (Card card : user.getCards()) {
-            System.out.println(card.getStringNum());
-        }
+        System.out.println(user.getCards());
         System.out.println("----------------");
         System.out.println(dealer.getName());
-        System.out.println(dealer.getCards().get(0).getStringNum());
-        System.out.println("시크릿 카드");
+        System.out.println(dealer.getCards());
     }
 
-    //todo view 단으로 이동
+    //todo view 단으로 이동, refactoring
     public void winner() {
-        System.out.println("우승자");
-        if (user.compareScore(dealer)) {
-            System.out.println(user.getName());
-            System.out.println("유저의 총합 : " + user.score());
-            System.out.println("딜러의 총합 : " + dealer.score());
-        } else {
-            System.out.println(dealer.getName());
-            System.out.println("딜러의 총합 : " + dealer.score());
-            System.out.println("유저의 총합 : " + user.score());
+        System.out.println();
+
+        if (this.result.equals("push")) {
+            System.out.println("비겼습니다.");
         }
+
+        if (result.equals("userWin")) {
+            System.out.println("유저가 이겼습니다.");
+        }
+
+        if (result.equals("dealerWin")) {
+            System.out.println("딜러가 이겼습니다.");
+        }
+
+        if (result.equals("")) {
+            if (user.compareScore(dealer)) {
+                System.out.println("우승자는 " + user.getName());
+            } else {
+                System.out.println("우승자는 " + dealer.getName());
+            }
+        }
+
+        System.out.println("딜러의 총합 : " + dealer.score());
+        System.out.println("유저의 총합 : " + user.score());
     }
 
 
-    // 카드를 파라미터에 넣어 외부에서 받아라.
     public void userChoiceHitOrStand(int choiceNumber) {
         if (choiceNumber == 1) {
             user.drawCard(cardDeck.drawCard());
+            user.setOneA();
+            /////////
             if (user.isBurst()) {
+                result = "dealerWin";
                 userTurn = false;
             }
             showCard();
@@ -76,6 +112,7 @@ public class BlackjackGame {
     public void dealerTurn() {
         while (dealerScore() <= 16) {
             dealer.drawCard(cardDeck.drawCard());
+            dealer.setOneA();
         }
     }
 
@@ -91,7 +128,7 @@ public class BlackjackGame {
         return dealer.isBurst();
     }
 
-    public void draw() {
+    public void push() {
         System.out.println("비겼습니다.");
     }
 }

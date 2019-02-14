@@ -39,7 +39,6 @@ public class Input {
             System.out.println("숫자를 잘못 입력하셨습니다.");
             choiceHitOrstand();
         }
-//        System.out.println("!!!!!!!!!!!!!!!!!!!!!" + choiceNumber);
         return choiceNumber;
     }
 

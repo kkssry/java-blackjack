@@ -19,9 +19,7 @@ public class PlayerTest extends BaseTest {
         player.drawCard(new Card(Number.A,CardPattern.CLOVER));
         player.drawCard(new Card(Number.SEVEN,CardPattern.CLOVER));
 
-        //todo 렌덤값을 구하고 뽑는 메소드를 분리하라
         softly.assertThat(player.getCard(0)).isNotNull();
-        //플레이어가 숫자를 꺼내는 메소드까지는 가질 필요 없을것 같다.
         softly.assertThat(player.getCard(0).getNum()).isEqualTo(11);
         softly.assertThat(player.getCard(1).getNum()).isEqualTo(7);
 
@@ -36,7 +34,8 @@ public class PlayerTest extends BaseTest {
 
 
         softly.assertThat(player.isBurst()).isTrue();
-        softly.assertThat(player.showScore()).isEqualTo(14);
+        player.setOneA();
+        softly.assertThat(player.score()).isEqualTo(14);
         softly.assertThat(player.isBurst()).isFalse();
 
     }
@@ -48,9 +47,9 @@ public class PlayerTest extends BaseTest {
         player.drawCard(new Card(Number.SEVEN,CardPattern.CLOVER));
         player.drawCard(new Card(Number.SIX,CardPattern.CLOVER));
 
-
         softly.assertThat(player.isBurst()).isTrue();
-        softly.assertThat(player.showScore()).isEqualTo(14);
+        player.setOneA();
+        softly.assertThat(player.score()).isEqualTo(14);
         softly.assertThat(player.isBurst()).isFalse();
 
     }
@@ -62,13 +61,14 @@ public class PlayerTest extends BaseTest {
         player.drawCard(new Card(Number.A,CardPattern.DIAMOND));
 
         softly.assertThat(player.isBurst()).isTrue();
-        softly.assertThat(player.showScore()).isEqualTo(12);
+        player.setOneA();
+        softly.assertThat(player.score()).isEqualTo(12);
         softly.assertThat(player.isBurst()).isFalse();
         // hit
         player.drawCard(new Card(Number.A,CardPattern.HEART));
-
         softly.assertThat(player.isBurst()).isTrue();
-        softly.assertThat(player.showScore()).isEqualTo(13);
+        player.setOneA();
+        softly.assertThat(player.score()).isEqualTo(13);
         softly.assertThat(player.isBurst()).isFalse();
 
     }
@@ -82,7 +82,7 @@ public class PlayerTest extends BaseTest {
 
 
         softly.assertThat(player.isBurst()).isTrue();
-        softly.assertThat(player.showScore()).isEqualTo(23);
+        softly.assertThat(player.score()).isEqualTo(23);
 
     }
 
@@ -97,9 +97,12 @@ public class PlayerTest extends BaseTest {
     @Test
     public void player_hava_oneA() {
         Player player = new Player("스컬");
+        player.drawCard(new Card(Number.Q,CardPattern.SPADE));
+        player.drawCard(new Card(Number.K,CardPattern.SPADE));
         player.drawCard(new Card(Number.A,CardPattern.DIAMOND));
         player.setOneA();
         softly.assertThat(player.isElevenA()).isFalse();
+        softly.assertThat(player.isBlackjack()).isTrue();
 
     }
 }

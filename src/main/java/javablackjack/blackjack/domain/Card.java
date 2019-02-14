@@ -20,24 +20,13 @@ public class Card {
         return num.getNum();
     }
 
-    public boolean isOneA() {
-        return isOneA;
-    }
-
     public void setIsOneA() {
         this.isOneA = true;
     }
 
     @Override
     public String toString() {
-        return "Card{" +
-                "num=" + num +
-                ", pattern=" + pattern +
-                '}';
-    }
-
-    public String getStringNum() {
-        return num.name();
+        return "[" + num.name() + " , " + pattern + "]";
     }
 
     @Override
