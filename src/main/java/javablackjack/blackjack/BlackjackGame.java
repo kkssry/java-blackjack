@@ -16,12 +16,11 @@ public class BlackjackGame {
 
     private Player user;
     private Player dealer;
-    private boolean userTurn = true;
 
 
     private Map<Integer, BiFunction<Player, Player, GameResult>> blackjackCases;
     private Map<Integer, BiFunction<Player, Player, GameResult>> burstCases;
-    private Map<Integer, BiFunction<Player, Player, GameResult>> winerCase;
+    private Map<Integer, BiFunction<Player, Player, GameResult>> winnerCase;
 
 
     // todo 이걸 밖으로 빼면 렌덤 태스트가 가능하다. 의존관계 분리
@@ -37,9 +36,42 @@ public class BlackjackGame {
         this.user = player;
         this.dealer = dealer;
         blackjackCases = blackjackCase();
+        burstCases = burstCase();
+        winnerCase = winnerCaseWithUserStay();
     }
 
+    private Map<Integer, BiFunction<Player, Player, GameResult>> burstCase() {
+        Map<Integer, BiFunction<Player, Player, GameResult>> burst = new HashMap<>();
+        burst.put(1, (user, dealer) -> getGameResult(user.isBurst(), !dealer.isBurst(), GameResult.DEALER_WIN));
+        burst.put(2, (user, dealer) -> getGameResult(!user.isBurst(), dealer.isBurst(), GameResult.USUER_WIN));
+        return burst;
+    }
+
+    public Map<Integer, BiFunction<Player, Player, GameResult>> blackjackCase() {
+        Map<Integer, BiFunction<Player, Player, GameResult>> asdf = new HashMap<>();
+        asdf.put(1, (user, dealer) -> getGameResult(user.isBlackjack(), dealer.isBlackjack(), GameResult.PUSH));
+        asdf.put(2, (user, dealer) -> getGameResult(user.isBlackjack(), !dealer.isBlackjack(), GameResult.USUER_WIN));
+        asdf.put(3, (user, dealer) -> getGameResult(!user.isBlackjack(), dealer.isBlackjack(), GameResult.DEALER_WIN));
+        return asdf;
+    }
+
+    public Map<Integer, BiFunction<Player, Player, GameResult>> winnerCaseWithUserStay() {
+        Map<Integer, BiFunction<Player, Player, GameResult>> asdf = new HashMap<>();
+        asdf.put(1, (user, dealer) -> getGameResult(!isUserTurnTrue(), (user.score() == dealer.score()), GameResult.PUSH));
+        asdf.put(2, (user, dealer) -> getGameResult(!isUserTurnTrue(), user.compareScore(dealer), GameResult.USUER_WIN));
+        asdf.put(3, (user, dealer) -> getGameResult(!isUserTurnTrue(), dealer.compareScore(user), GameResult.DEALER_WIN));
+        return asdf;
+    }
+    
+    private GameResult getGameResult(boolean case1, boolean case2, GameResult gameResult) {
+        if (case1 && case2) {
+            user.finishTurn();
+            return gameResult;
+        }
+        return GameResult.DEAULF;
+    }
     //todo 줄이고싶다.
+
     public void startGame() {
         dealer.drawCard(cardDeck.drawCard());
         user.drawCard(cardDeck.drawCard());
@@ -47,42 +79,26 @@ public class BlackjackGame {
         user.drawCard(cardDeck.drawCard());
     }
 
-    public Map<Integer, BiFunction<Player, Player, GameResult>> blackjackCase() {
-        Map<Integer, BiFunction<Player, Player, GameResult>> asdf = new HashMap<>();
-        asdf.put(1, (p1, p2) -> getGameResult(p1.isBlackjack(), p2.isBlackjack(), GameResult.PUSH));
-        asdf.put(2, (p1, p2) -> getGameResult(p1.isBlackjack(), !p2.isBlackjack(), GameResult.USUER_WIN));
-        asdf.put(3, (p1, p2) -> getGameResult(!p1.isBlackjack(), p2.isBlackjack(), GameResult.DEALER_WIN));
-        return asdf;
-    }
+    //포비는 찾아 낼 것인가
 
-    private GameResult getGameResult(boolean case1, boolean case2, GameResult gameResult) {
-        if (checkCase(case1, case2)) {
-            result = gameResult;
-        }
-        return result;
-    }
-
-
-    private boolean checkCase(boolean case1, boolean case2) {
-        if (case1 && case2) {
-            userTurn = false;
-            return true;
-        }
-        return false;
-    }
 
     public String checkBlackjack() {
-
-        for (BiFunction<Player, Player, GameResult> value : blackjackCases.values()) {
-            value.apply(user,dealer);
-        }
+        checkResultCase(blackjackCases);
 
         System.out.println("딜러의 총합 : " + dealer.score());
         System.out.println("유저의 총합 : " + user.score());
         return result.getGameResult();
     }
 
+    private void checkResultCase(Map<Integer, BiFunction<Player, Player, GameResult>> cases) {
+        for (BiFunction<Player, Player, GameResult> value : cases.values()) {
+            if (result.equals(GameResult.DEAULF)) {
+                result = value.apply(user, dealer);
+            }
+        }
+    }
     // todo : 유저가 모두 스탠드 할때 총합 출력용도 view 단으로 이동
+
     public void showCard() {
         System.out.println(user.getName());
         System.out.println(user.getCards());
@@ -91,25 +107,15 @@ public class BlackjackGame {
         System.out.println(dealer.getCards());
     }
 
+
+
+
     //todo view 단으로 이동, refactoring
     public void winner() {
         System.out.println();
         // 1.유저가 버스트가 안나거나 2.유저가 블랙잭이 아니거나 3.딜러가 버스트 안나거나 4.딜러가 블랙잭이 아닐때
         // 점수 비교
-        if (!isUserTurnTrue() && result.equals(GameResult.DEAULF)) {
-            if (user.compareScore(dealer)) {
-                result = GameResult.USUER_WIN;
-            }
-
-            if (dealer.compareScore(user)) {
-                result = GameResult.DEALER_WIN;
-            }
-
-            if (dealer.score() == user.score()) {
-                result = GameResult.PUSH;
-            }
-        }
-
+        checkResultCase(winnerCase);
 
         System.out.println("딜러의 총합 : " + dealer.score());
         System.out.println("유저의 총합 : " + user.score());
@@ -123,9 +129,7 @@ public class BlackjackGame {
                 showCard();
             }
         }
-        if (dealer.isBurst()) {
-            result = GameResult.USUER_WIN;
-        }
+        checkResultCase(burstCases);
     }
 
     //todo : 리팩토링 해야함
@@ -133,19 +137,20 @@ public class BlackjackGame {
         if (choiceNumber == 1) {
             user.drawCard(cardDeck.drawCard());
             /////////
-            if (user.isBurst()) {
+            /*if (user.isBurst()) {
                 result = GameResult.DEALER_WIN;
-                userTurn = false;
-            }
+                user.finishTurn();
+            }*/
+            checkResultCase(burstCases);
             showCard();
         }
         if (choiceNumber == 2) {
-            userTurn = false;
+            user.finishTurn();
         }
     }
 
     public boolean isUserTurnTrue() {
-        return userTurn;
+        return user.isTurn();
     }
 
     public GameResult getResult() {

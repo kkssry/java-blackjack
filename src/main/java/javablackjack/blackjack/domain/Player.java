@@ -9,7 +9,7 @@ public class Player {
     //todo : 1급 객체로 리팩토링 해야함.
     private List<Card> cards = new ArrayList<>();
     private String name;
-
+    private boolean playerTurn = true;
 
 
     public Player(String userName) {
@@ -33,7 +33,6 @@ public class Player {
     public String getName() {
         return name;
     }
-
 
     public boolean isBurst() {
         return score() > 21;
@@ -62,17 +61,17 @@ public class Player {
     }
 
     public boolean isBlackjack() {
-        return score() == 21;
+       return score() == 21;
     }
 
 //    public boolean checkUserTurn() {
 //        if (isBlackjack()) {
-//            return userTurn = false;
+//            return playerTurn = false;
 //        }
 //        if (isBurst()) {
-//            return userTurn = false;
+//            return playerTurn = false;
 //        }
-//        return userTurn;
+//        return playerTurn;
 //    }
 
     @Override
@@ -82,5 +81,13 @@ public class Player {
                 ", cards=" + cards +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public void finishTurn() {
+        playerTurn = false;
+    }
+
+    public boolean isTurn() {
+        return playerTurn;
     }
 }

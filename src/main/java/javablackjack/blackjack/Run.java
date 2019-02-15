@@ -22,9 +22,8 @@ public class Run {
         BlackjackGame blackjackGame = new BlackjackGame();
 
         Player player = new Player(userName);
-        Player dealer = new Player("dealer");
         //Player, dealer 입장.
-        blackjackGame.initUser(player, dealer);
+        blackjackGame.initUser(player, new Player("dealer"));
 
         // 1. 2장씩 카드를 받고
         blackjackGame.startGame();
@@ -35,7 +34,7 @@ public class Run {
         //3.  위너 한번 확인
 
         // 히트 올 스탠드
-        while (blackjackGame.isUserTurnTrue()) {
+        while (player.isTurn()) {
             blackjackGame.userChoiceHitOrStand(input.choiceHitOrstand());
         }
 
