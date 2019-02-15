@@ -43,10 +43,6 @@ public class Player {
     }
 
     public boolean compareScore(Player otherPlayer) {
-//        //setOneA();
-//        if (otherPlayer.isBlackjack()) {
-//
-//        }
         return score() > otherPlayer.score();
     }
 
@@ -61,18 +57,8 @@ public class Player {
     }
 
     public boolean isBlackjack() {
-       return score() == 21;
+        return score() == 21;
     }
-
-//    public boolean checkUserTurn() {
-//        if (isBlackjack()) {
-//            return playerTurn = false;
-//        }
-//        if (isBurst()) {
-//            return playerTurn = false;
-//        }
-//        return playerTurn;
-//    }
 
     @Override
     public String toString() {

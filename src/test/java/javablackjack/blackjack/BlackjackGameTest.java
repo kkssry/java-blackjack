@@ -1,9 +1,7 @@
 package javablackjack.blackjack;
 
-import javablackjack.blackjack.domain.Card;
-import javablackjack.blackjack.domain.CardPattern;
+import javablackjack.blackjack.domain.*;
 import javablackjack.blackjack.domain.Number;
-import javablackjack.blackjack.domain.Player;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;

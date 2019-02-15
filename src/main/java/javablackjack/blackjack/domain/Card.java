@@ -3,7 +3,7 @@ package javablackjack.blackjack.domain;
 import java.util.Objects;
 
 public class Card {
-    public static final Card ELEVEN_A = new Card(Number.A,CardPattern.SPADE);
+    public static final Card ELEVEN_A = new Card(Number.A, CardPattern.SPADE);
     private Number num;
     private CardPattern pattern;
     private boolean isOneA = false;

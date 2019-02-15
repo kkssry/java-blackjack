@@ -1,6 +1,8 @@
 package javablackjack.blackjack.domain;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class CardDeck {
     public List<Card> cards = new ArrayList<>();

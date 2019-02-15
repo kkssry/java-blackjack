@@ -1,8 +1,4 @@
-package javablackjack.blackjack;
-
-import javablackjack.blackjack.domain.Player;
-
-import java.util.Arrays;
+package javablackjack.blackjack.domain;
 
 public enum GameResult {
     USUER_WIN("유저가 이겼습니다."),
@@ -17,20 +13,9 @@ public enum GameResult {
         this.gameResult = gameResult;
     }
 
-//    public static GameResult findResult() {
-//        Arrays.stream(GameResult.values()).filter();
-//    }
-
 
     public String getGameResult() {
-        /*if (DEAULF.equals(this)) {
-            this.adf();
-        }*/
         return gameResult;
-    }
-
-    private void adf(Player user, Player dealer) {
-
     }
 
     @Override
