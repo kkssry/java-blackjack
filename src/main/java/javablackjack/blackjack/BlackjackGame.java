@@ -1,9 +1,12 @@
 package javablackjack.blackjack;
 
-import javablackjack.blackjack.domain.Card;
 import javablackjack.blackjack.domain.CardDeck;
 import javablackjack.blackjack.domain.Player;
 import org.slf4j.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiFunction;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -14,6 +17,12 @@ public class BlackjackGame {
     private Player user;
     private Player dealer;
     private boolean userTurn = true;
+
+
+    private Map<Integer, BiFunction<Player, Player, GameResult>> blackjackCases;
+    private Map<Integer, BiFunction<Player, Player, GameResult>> burstCases;
+    private Map<Integer, BiFunction<Player, Player, GameResult>> winerCase;
+
 
     // todo 이걸 밖으로 빼면 렌덤 태스트가 가능하다. 의존관계 분리
     private CardDeck cardDeck = new CardDeck();
@@ -27,6 +36,7 @@ public class BlackjackGame {
     public void initUser(Player player, Player dealer) {
         this.user = player;
         this.dealer = dealer;
+        blackjackCases = blackjackCase();
     }
 
     //todo 줄이고싶다.
@@ -37,23 +47,34 @@ public class BlackjackGame {
         user.drawCard(cardDeck.drawCard());
     }
 
+    public Map<Integer, BiFunction<Player, Player, GameResult>> blackjackCase() {
+        Map<Integer, BiFunction<Player, Player, GameResult>> asdf = new HashMap<>();
+        asdf.put(1, (p1, p2) -> getGameResult(p1.isBlackjack(), p2.isBlackjack(), GameResult.PUSH));
+        asdf.put(2, (p1, p2) -> getGameResult(p1.isBlackjack(), !p2.isBlackjack(), GameResult.USUER_WIN));
+        asdf.put(3, (p1, p2) -> getGameResult(!p1.isBlackjack(), p2.isBlackjack(), GameResult.DEALER_WIN));
+        return asdf;
+    }
+
+    private GameResult getGameResult(boolean case1, boolean case2, GameResult gameResult) {
+        if (checkCase(case1, case2)) {
+            result = gameResult;
+        }
+        return result;
+    }
+
+
+    private boolean checkCase(boolean case1, boolean case2) {
+        if (case1 && case2) {
+            userTurn = false;
+            return true;
+        }
+        return false;
+    }
+
     public String checkBlackjack() {
-        if (user.isBlackjack() && dealer.isBlackjack()) {
-            result = GameResult.PUSH;
-            userTurn = false;
-            return result.getGameResult();
-        }
 
-        if (user.isBlackjack() && !dealer.isBlackjack()) {
-            result = GameResult.USUER_WIN;
-            userTurn = false;
-            return result.getGameResult();
-        }
-
-        if (!user.isBlackjack() && dealer.isBlackjack()) {
-            result = GameResult.DEALER_WIN;
-            userTurn = false;
-            return result.getGameResult();
+        for (BiFunction<Player, Player, GameResult> value : blackjackCases.values()) {
+            value.apply(user,dealer);
         }
 
         System.out.println("딜러의 총합 : " + dealer.score());

@@ -4,6 +4,7 @@ import javablackjack.blackjack.domain.Card;
 import javablackjack.blackjack.domain.CardPattern;
 import javablackjack.blackjack.domain.Number;
 import javablackjack.blackjack.domain.Player;
+import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -11,6 +12,12 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class BlackjackGameTest extends BaseTest {
     private static final Logger log = getLogger(BlackjackGameTest.class);
+    private Card card_A;
+
+    @Before
+    public void setup() {
+        card_A = new Card(Number.A,CardPattern.CLOVER);
+    }
 
     @Test
     public void 딜러셋업() {
@@ -32,22 +39,23 @@ public class BlackjackGameTest extends BaseTest {
     @Test
     public void user_win() {
         // 유저는 20 딜러는 19로 패배
-        BlackjackGame blackjackGame = new BlackjackGame();
-        Player player = new Player("skull");
-        Player dealer = new Player("dealer");
+        BlackjackGame blackjackGame1 = new BlackjackGame();
+        Player player1 = new Player("skull");
+        Player dealer1 = new Player("dealer");
 
-        player.drawCard(Card.ELEVEN_A);
-        player.drawCard(new Card(Number.NINE, CardPattern.SPADE));
+        player1.drawCard(card_A);
+        player1.drawCard(new Card(Number.NINE, CardPattern.SPADE));
+        log.debug("플레이어 카드 {}", player1.getCards());
+        dealer1.drawCard(card_A);
+        dealer1.drawCard(new Card(Number.EIGHT, CardPattern.SPADE));
+        log.debug("e딜ㄹ러 카드 {}", dealer1.getCards());
 
-        dealer.drawCard(Card.ELEVEN_A);
-        dealer.drawCard(new Card(Number.EIGHT, CardPattern.SPADE));
+        blackjackGame1.initUser(player1, dealer1);
 
-        blackjackGame.initUser(player, dealer);
-
-        blackjackGame.winner();
-
-        softly.assertThat(player.score()).isEqualTo(20);
-        softly.assertThat(dealer.score()).isEqualTo(19);
+        blackjackGame1.winner();
+        log.debug("유저점수 : {}", player1.score());
+        softly.assertThat(player1.score()).isEqualTo(20);
+        softly.assertThat(dealer1.score()).isEqualTo(19);
     }
 
     @Test
@@ -57,16 +65,15 @@ public class BlackjackGameTest extends BaseTest {
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
 
-        player.drawCard(Card.ELEVEN_A);
+        player.drawCard(card_A);
         player.drawCard(new Card(Number.K, CardPattern.SPADE));
 
-        dealer.drawCard(Card.ELEVEN_A);
+        dealer.drawCard(card_A);
         dealer.drawCard(new Card(Number.EIGHT, CardPattern.SPADE));
 
         blackjackGame.initUser(player, dealer);
 
         blackjackGame.winner();
-
         softly.assertThat(player.score()).isEqualTo(21);
         softly.assertThat(dealer.score()).isEqualTo(19);
     }
@@ -80,10 +87,10 @@ public class BlackjackGameTest extends BaseTest {
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
 
-        player.drawCard(Card.ELEVEN_A);
+        player.drawCard(card_A);
         player.drawCard(new Card(Number.SIX, CardPattern.SPADE));
 
-        dealer.drawCard(Card.ELEVEN_A);
+        dealer.drawCard(card_A);
         dealer.drawCard(new Card(Number.EIGHT, CardPattern.SPADE));
 
         blackjackGame.initUser(player, dealer);
@@ -100,10 +107,10 @@ public class BlackjackGameTest extends BaseTest {
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
 
-        player.drawCard(Card.ELEVEN_A);
+        player.drawCard(card_A);
         player.drawCard(new Card(Number.SIX, CardPattern.SPADE));
 
-        dealer.drawCard(Card.ELEVEN_A);
+        dealer.drawCard(card_A);
         dealer.drawCard(new Card(Number.K, CardPattern.SPADE));
 
         blackjackGame.initUser(player, dealer);
@@ -121,10 +128,10 @@ public class BlackjackGameTest extends BaseTest {
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
 
-        player.drawCard(Card.ELEVEN_A);
+        player.drawCard(card_A);
         player.drawCard(new Card(Number.K, CardPattern.SPADE));
 
-        dealer.drawCard(Card.ELEVEN_A);
+        dealer.drawCard(card_A);
         dealer.drawCard(new Card(Number.Q, CardPattern.SPADE));
 
         blackjackGame.initUser(player, dealer);
@@ -144,10 +151,10 @@ public class BlackjackGameTest extends BaseTest {
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
 
-        player.drawCard(Card.ELEVEN_A);
+        player.drawCard(card_A);
         player.drawCard(new Card(Number.K, CardPattern.SPADE));
 
-        dealer.drawCard(Card.ELEVEN_A);
+        dealer.drawCard(card_A);
         dealer.drawCard(new Card(Number.Q, CardPattern.SPADE));
 
         blackjackGame.initUser(player, dealer);
@@ -158,18 +165,20 @@ public class BlackjackGameTest extends BaseTest {
     @Test
     public void checkblackjack_user() {
         //유저 블랙잭
-        BlackjackGame blackjackGame = new BlackjackGame();
+        BlackjackGame blackjackGame2 = new BlackjackGame();
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
 
-        player.drawCard(Card.ELEVEN_A);
+        player.drawCard(card_A);
         player.drawCard(new Card(Number.K, CardPattern.SPADE));
 
-        dealer.drawCard(Card.ELEVEN_A);
+        dealer.drawCard(new Card(Number.A, CardPattern.HEART));
         dealer.drawCard(new Card(Number.A, CardPattern.SPADE));
 
-        blackjackGame.initUser(player, dealer);
-        softly.assertThat(blackjackGame.checkBlackjack()).isEqualTo(GameResult.USUER_WIN.getGameResult());
+        blackjackGame2.initUser(player, dealer);
+        log.debug("ㄻㄴㄻㄴ{}",player.score());
+
+        softly.assertThat(blackjackGame2.checkBlackjack()).isEqualTo(GameResult.USUER_WIN.getGameResult());
 
     }
 
@@ -180,10 +189,10 @@ public class BlackjackGameTest extends BaseTest {
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
 
-        player.drawCard(Card.ELEVEN_A);
+        player.drawCard(card_A);
         player.drawCard(new Card(Number.FOUR, CardPattern.SPADE));
 
-        dealer.drawCard(Card.ELEVEN_A);
+        dealer.drawCard(card_A);
         dealer.drawCard(new Card(Number.K, CardPattern.SPADE));
 
         blackjackGame.initUser(player, dealer);

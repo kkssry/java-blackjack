@@ -12,6 +12,7 @@ public enum GameResult {
 
     private String gameResult;
 
+
     GameResult(String gameResult) {
         this.gameResult = gameResult;
     }
