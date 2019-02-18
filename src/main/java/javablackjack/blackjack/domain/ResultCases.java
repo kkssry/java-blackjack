@@ -1,40 +1,39 @@
 package javablackjack.blackjack.domain;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 
 public class ResultCases {
-
-    public Map<Integer, BiFunction<Player, Player, GameResult>> burstCase() {
-        Map<Integer, BiFunction<Player, Player, GameResult>> burst = new HashMap<>();
-        burst.put(1, (user, dealer) -> getGameResult(user.isBurst(), !dealer.isBurst(), GameResult.DEALER_WIN, user));
-        burst.put(2, (user, dealer) -> getGameResult(!user.isBurst(), dealer.isBurst(), GameResult.USUER_WIN, user));
-        return burst;
+    public static List<BiFunction<Player, Player, GameResult>> burstCase() {
+        List<BiFunction<Player, Player, GameResult>> list = new ArrayList<>();
+        list.add((user,dealer)->getGameResult(user.isBurst(), !dealer.isBurst(),GameResult.DEALER_WIN));
+        list.add((user,dealer)->getGameResult(!user.isBurst(), dealer.isBurst(),GameResult.USUER_WIN));
+        return list;
     }
 
-    public Map<Integer, BiFunction<Player, Player, GameResult>> blackjackCase() {
-        Map<Integer, BiFunction<Player, Player, GameResult>> blackjack = new HashMap<>();
-        blackjack.put(1, (user, dealer) -> getGameResult(user.isBlackjack(), dealer.isBlackjack(), GameResult.PUSH, user));
-        blackjack.put(2, (user, dealer) -> getGameResult(user.isBlackjack(), !dealer.isBlackjack(), GameResult.USUER_WIN, user));
-        blackjack.put(3, (user, dealer) -> getGameResult(!user.isBlackjack(), dealer.isBlackjack(), GameResult.DEALER_WIN, user));
+    public static List<BiFunction<Player, Player, GameResult>> blackjackCase() {
+        List<BiFunction<Player, Player, GameResult>> blackjack = new ArrayList<>();
+        blackjack.add((user, dealer) -> getGameResult(user.isBlackjack(), dealer.isBlackjack(), GameResult.PUSH));  //default
+        blackjack.add((user, dealer) -> getGameResult(user.isBlackjack(), !dealer.isBlackjack(), GameResult.USUER_WIN));    //user_win
+        blackjack.add((user, dealer) -> getGameResult(!user.isBlackjack(), dealer.isBlackjack(), GameResult.DEALER_WIN));   //deafult
         return blackjack;
     }
 
-    public Map<Integer, BiFunction<Player, Player, GameResult>> winnerCaseWithUserStay() {
-        Map<Integer, BiFunction<Player, Player, GameResult>> winner = new HashMap<>();
-        winner.put(1, (user, dealer) -> getGameResult(!user.isTurn(), (user.score() == dealer.score()), GameResult.PUSH, user));
-        winner.put(2, (user, dealer) -> getGameResult(!user.isTurn(), user.compareScore(dealer), GameResult.USUER_WIN, user));
-        winner.put(3, (user, dealer) -> getGameResult(!user.isTurn(), dealer.compareScore(user), GameResult.DEALER_WIN, user));
+    public static List<BiFunction<Player, Player, GameResult>> winnerCaseWithUserStay() {
+        List<BiFunction<Player, Player, GameResult>> winner = new ArrayList<>();
+        winner.add((user, dealer) -> getGameResult(!user.isTurn(), user.isEqualScore(dealer), GameResult.PUSH));
+        winner.add((user, dealer) -> getGameResult(!user.isTurn(), user.compareScore(dealer), GameResult.USUER_WIN));
+        winner.add((user, dealer) -> getGameResult(!user.isTurn(), dealer.compareScore(user), GameResult.DEALER_WIN));
         return winner;
     }
 
-    private GameResult getGameResult(boolean case1, boolean case2, GameResult gameResult, Player user) {
+    private static GameResult getGameResult(boolean case1, boolean case2, GameResult gameResult) {
         if (case1 && case2) {
-            user.finishTurn();
             return gameResult;
         }
-        return GameResult.DEAULF;
+        return GameResult.DEFAULT;
     }
-
 }

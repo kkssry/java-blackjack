@@ -4,7 +4,7 @@ public enum GameResult {
     USUER_WIN("유저가 이겼습니다."),
     DEALER_WIN("딜러가 아겼습니다."),
     PUSH("비겼습니다."),
-    DEAULF("");
+    DEFAULT("");
 
     private String gameResult;
 
@@ -12,7 +12,6 @@ public enum GameResult {
     GameResult(String gameResult) {
         this.gameResult = gameResult;
     }
-
 
     public String getGameResult() {
         return gameResult;

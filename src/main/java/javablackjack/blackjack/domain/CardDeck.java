@@ -20,12 +20,11 @@ public class CardDeck {
         }
     }
 
-    public List<Card> getCards() {
-        return cards;
-    }
-
     public Card drawCard() {
         return cards.remove(0);
     }
 
+    public List<Card> getCards() {
+        return cards;
+    }
 }
