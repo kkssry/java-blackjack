@@ -90,7 +90,7 @@ public class PlayerTest extends BaseTest {
     public void player_hava_elevenA() {
         Player player = new Player("스컬");
         player.drawCard(new Card(Number.A,CardPattern.DIAMOND));
-        softly.assertThat(player.isElevenA()).isTrue();
+        softly.assertThat(player.isContainElevenA()).isTrue();
 
     }
 
@@ -101,7 +101,7 @@ public class PlayerTest extends BaseTest {
         player.drawCard(new Card(Number.K,CardPattern.SPADE));
         player.drawCard(new Card(Number.A,CardPattern.DIAMOND));
         player.setOneA();
-        softly.assertThat(player.isElevenA()).isFalse();
+        softly.assertThat(player.isContainElevenA()).isFalse();
         softly.assertThat(player.isBlackjack()).isTrue();
 
     }

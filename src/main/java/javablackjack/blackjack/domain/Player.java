@@ -1,16 +1,22 @@
 package javablackjack.blackjack.domain;
 
+import javablackjack.blackjack.util.NumberManager;
+import org.slf4j.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 
 public class Player {
+    private static final Logger log = getLogger(Player.class);
+
     private int money = 20;
     //todo : 1급 객체로 리팩토링 해야함.
     private List<Card> cards = new ArrayList<>();
     private String name;
     private boolean playerTurn = true;
-
 
     public Player(String userName) {
         this.name = userName;
@@ -35,7 +41,7 @@ public class Player {
     }
 
     public boolean isBurst() {
-        return score() > 21;
+        return score() > NumberManager.BLACKJACK_NUMBER;
     }
 
     public Card getCard(int index) {
@@ -46,18 +52,30 @@ public class Player {
         return score() > otherPlayer.score();
     }
 
+    public boolean isEqualScore(Player otherPlayer) {
+        return score() == otherPlayer.score();
+    }
+
     public void setOneA() {
-        if (this.isBurst() && isElevenA()) {
+        if (this.isBurst() && this.isContainElevenA()) {
             cards.get(cards.indexOf(Card.ELEVEN_A)).setIsOneA();
         }
     }
 
-    public boolean isElevenA() {
+    public boolean isContainElevenA() {
         return cards.contains(Card.ELEVEN_A);
     }
 
     public boolean isBlackjack() {
-        return score() == 21;
+        return score() == NumberManager.BLACKJACK_NUMBER;
+    }
+
+    public void finishTurn() {
+        playerTurn = false;
+    }
+
+    public boolean isTurn() {
+        return playerTurn;
     }
 
     @Override
@@ -67,13 +85,5 @@ public class Player {
                 ", cards=" + cards +
                 ", name='" + name + '\'' +
                 '}';
-    }
-
-    public void finishTurn() {
-        playerTurn = false;
-    }
-
-    public boolean isTurn() {
-        return playerTurn;
     }
 }

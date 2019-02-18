@@ -113,8 +113,9 @@ public class BlackjackGameTest extends BaseTest {
 
         blackjackGame.initUser(player, dealer);
 
-        blackjackGame.winner();
+        blackjackGame.checkBlackjack();
 
+        softly.assertThat(player.isTurn()).isFalse();
         softly.assertThat(player.score()).isEqualTo(17);
         softly.assertThat(dealer.score()).isEqualTo(21);
     }
@@ -197,6 +198,4 @@ public class BlackjackGameTest extends BaseTest {
         softly.assertThat(blackjackGame.checkBlackjack()).isEqualTo(GameResult.DEALER_WIN.getGameResult());
 
     }
-
-
 }

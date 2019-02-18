@@ -1,5 +1,7 @@
 package javablackjack.blackjack.domain;
 
+import javablackjack.blackjack.util.NumberManager;
+
 import java.util.Objects;
 
 public class Card {
@@ -15,7 +17,7 @@ public class Card {
 
     public int getNum() {
         if (isOneA) {
-            return 1;
+            return NumberManager.ONE_A;
         }
         return num.getNum();
     }
