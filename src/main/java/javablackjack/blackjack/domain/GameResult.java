@@ -1,7 +1,7 @@
 package javablackjack.blackjack.domain;
 
 public enum GameResult {
-    USUER_WIN("유저가 이겼습니다."),
+    USER_WIN("유저가 이겼습니다."),
     DEALER_WIN("딜러가 아겼습니다."),
     PUSH("비겼습니다."),
     DEFAULT("");
@@ -15,6 +15,10 @@ public enum GameResult {
 
     public String getGameResult() {
         return gameResult;
+    }
+
+    public boolean isDefault() {
+        return this.equals(DEFAULT);
     }
 
     @Override

@@ -7,7 +7,7 @@ import org.junit.Test;
 public class CardTest extends BaseTest {
     @Test
     public void card_deck() {
-        CardDeck cardDeck = new CardDeck();
+        CardDeck cardDeck = CardDeckFactory.create();
         for (Card card : cardDeck.getCards()) {
             System.out.println(card);
         }

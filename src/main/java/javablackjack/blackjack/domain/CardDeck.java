@@ -1,23 +1,12 @@
 package javablackjack.blackjack.domain;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class CardDeck {
-    public List<Card> cards = new ArrayList<>();
+    public List<Card> cards;
 
-    public CardDeck() {
-        for (Number num : Number.values()) {
-            addPattern(num);
-        }
-        Collections.shuffle(cards);
-    }
-
-    private void addPattern(Number num) {
-        for (CardPattern value : CardPattern.values()) {
-            cards.add(new Card(num, value));
-        }
+    public CardDeck(List<Card> cards) {
+       this.cards = cards;
     }
 
     public Card drawCard() {

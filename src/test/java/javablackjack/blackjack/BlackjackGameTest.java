@@ -19,7 +19,7 @@ public class BlackjackGameTest extends BaseTest {
 
     @Test
     public void 딜러셋업() {
-        BlackjackGame blackjackGame = new BlackjackGame();
+        BlackjackGame blackjackGame = new BlackjackGame(CardDeckFactory.create());
         //player
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
@@ -37,7 +37,7 @@ public class BlackjackGameTest extends BaseTest {
     @Test
     public void user_win() {
         // 유저는 20 딜러는 19로 패배
-        BlackjackGame blackjackGame1 = new BlackjackGame();
+        BlackjackGame blackjackGame1 = new BlackjackGame(CardDeckFactory.create());
         Player player1 = new Player("skull");
         Player dealer1 = new Player("dealer");
 
@@ -59,7 +59,7 @@ public class BlackjackGameTest extends BaseTest {
     @Test
     public void user_blackjack_win() {
         //유저가 21나와서 승리
-        BlackjackGame blackjackGame = new BlackjackGame();
+        BlackjackGame blackjackGame = new BlackjackGame(CardDeckFactory.create());
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
 
@@ -81,7 +81,7 @@ public class BlackjackGameTest extends BaseTest {
     @Test
     public void dealer_win() {
         //유저는 17 딜러는 19 승리
-        BlackjackGame blackjackGame = new BlackjackGame();
+        BlackjackGame blackjackGame = new BlackjackGame(CardDeckFactory.create());
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
 
@@ -101,7 +101,7 @@ public class BlackjackGameTest extends BaseTest {
 
     @Test
     public void dealer_blackjack_win() {
-        BlackjackGame blackjackGame = new BlackjackGame();
+        BlackjackGame blackjackGame = new BlackjackGame(CardDeckFactory.create());
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
 
@@ -113,7 +113,8 @@ public class BlackjackGameTest extends BaseTest {
 
         blackjackGame.initUser(player, dealer);
 
-        blackjackGame.checkBlackjack();
+        GameResult result = blackjackGame.checkBlackjack();
+        blackjackGame.playerTurnFinish(result);
 
         softly.assertThat(player.isTurn()).isFalse();
         softly.assertThat(player.score()).isEqualTo(17);
@@ -123,7 +124,7 @@ public class BlackjackGameTest extends BaseTest {
     @Test
     public void game_push() {
         //둘다 블랙잭
-        BlackjackGame blackjackGame = new BlackjackGame();
+        BlackjackGame blackjackGame = new BlackjackGame(CardDeckFactory.create());
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
 
@@ -146,7 +147,7 @@ public class BlackjackGameTest extends BaseTest {
     @Test
     public void checkblackjack() {
         //둘다 블랙잭
-        BlackjackGame blackjackGame = new BlackjackGame();
+        BlackjackGame blackjackGame = new BlackjackGame(CardDeckFactory.create());
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
 
@@ -157,14 +158,14 @@ public class BlackjackGameTest extends BaseTest {
         dealer.drawCard(new Card(Number.Q, CardPattern.SPADE));
 
         blackjackGame.initUser(player, dealer);
-        softly.assertThat(blackjackGame.checkBlackjack()).isEqualTo(GameResult.PUSH.getGameResult());
+        softly.assertThat(blackjackGame.checkBlackjack()).isEqualTo(GameResult.PUSH);
 
     }
 
     @Test
     public void checkblackjack_user() {
         //유저 블랙잭
-        BlackjackGame blackjackGame2 = new BlackjackGame();
+        BlackjackGame blackjackGame2 = new BlackjackGame(CardDeckFactory.create());
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
 
@@ -177,14 +178,14 @@ public class BlackjackGameTest extends BaseTest {
         blackjackGame2.initUser(player, dealer);
         log.debug("ㄻㄴㄻㄴ{}",player.score());
 
-        softly.assertThat(blackjackGame2.checkBlackjack()).isEqualTo(GameResult.USUER_WIN.getGameResult());
+        softly.assertThat(blackjackGame2.checkBlackjack()).isEqualTo(GameResult.USER_WIN);
 
     }
 
     @Test
     public void checkblackjack_dealer() {
         //딜러 블랙잭
-        BlackjackGame blackjackGame = new BlackjackGame();
+        BlackjackGame blackjackGame = new BlackjackGame(CardDeckFactory.create());
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
 
@@ -195,7 +196,7 @@ public class BlackjackGameTest extends BaseTest {
         dealer.drawCard(new Card(Number.K, CardPattern.SPADE));
 
         blackjackGame.initUser(player, dealer);
-        softly.assertThat(blackjackGame.checkBlackjack()).isEqualTo(GameResult.DEALER_WIN.getGameResult());
+        softly.assertThat(blackjackGame.checkBlackjack()).isEqualTo(GameResult.DEALER_WIN);
 
     }
 }

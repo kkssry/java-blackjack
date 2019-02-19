@@ -1,62 +1,82 @@
 package javablackjack.blackjack.domain;
 
+import javablackjack.blackjack.domain.cases.BurstCase;
+import javablackjack.blackjack.domain.cases.ResultCases;
 import javablackjack.blackjack.util.NumberManager;
 
-import java.util.List;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class Pair {
     private Player user;
     private Player dealer;
-    private GameResult result = GameResult.DEFAULT;
 
     public Pair(Player user, Player dealer) {
         this.user = user;
         this.dealer = dealer;
     }
 
-    public void releaseInitCards() {
-        dealer.drawCard(BlackjackGame.CARD_DECK.drawCard());
-        user.drawCard(BlackjackGame.CARD_DECK.drawCard());
-        dealer.drawCard(BlackjackGame.CARD_DECK.drawCard());
-        user.drawCard(BlackjackGame.CARD_DECK.drawCard());
+    public void releaseInitCards(CardDeck cardDeck) {
+        dealer.drawCard(cardDeck.drawCard());
+        user.drawCard(cardDeck.drawCard());
+        dealer.drawCard(cardDeck.drawCard());
+        user.drawCard(cardDeck.drawCard());
     }
 
-    public GameResult checkResultCase(List<BiFunction<Player, Player, GameResult>> cases) {
-        for (BiFunction<Player, Player, GameResult> aCase : cases) {
-            if (isResultDefault()) {
-                result = aCase.apply(user, dealer);
-                this.finishTurnCases();
+    public GameResult checkResultCase(ResultCases resultCases) {
+        GameResult result = GameResult.DEFAULT;
+        for (Function<Pair, GameResult> aCase : resultCases.caseList()) {
+            if (isResultDefault(result)) {
+                result = aCase.apply(this);
             }
         }
         return result;
     }
 
-    public void userChoiceHitOrStand(int choiceNumber) {
+
+    public GameResult userChoiceHitOrStand(int choiceNumber, CardDeck cardDeck) {
         if (choiceNumber == 1) {
-            user.drawCard(BlackjackGame.CARD_DECK.drawCard());
-            checkResultCase(ResultCases.burstCase());
+            user.drawCard(cardDeck.drawCard());
+
             whenUserTwentyScore_finishTurn(user.isBlackjack());
+
         }
+
         if (choiceNumber == 2) {
             user.finishTurn();
         }
 
+
+        return checkResultCase(new BurstCase());
     }
 
     private void whenUserTwentyScore_finishTurn(boolean isTwentyScore) {
         if (isTwentyScore) {
             user.finishTurn();
         }
+
     }
 
-    private void finishTurnCases() {
-        if (!this.isResultDefault()) {
-            user.finishTurn();
+    public void finishTurnCases(GameResult result) {
+        if (!this.isResultDefault(result)) {
+            finishPlayerTurn();
         }
     }
 
-    public boolean isResultDefault() {
+
+    ///////////////////////
+
+    public boolean push() {
+        if (user.isTurn()) {
+            return user.isBlackjack() == dealer.isBlackjack();
+        } else {
+            return user.score() == dealer.score();
+        }
+
+    }
+
+    /////////////////////////////
+
+    public boolean isResultDefault(GameResult result) {
         return result.equals(GameResult.DEFAULT);
     }
 
@@ -76,10 +96,6 @@ public class Pair {
         return dealer;
     }
 
-    public GameResult getResult() {
-        return result;
-    }
-
     public void dealerDrawCard(Card card) {
         dealer.drawCard(card);
     }
@@ -89,7 +105,14 @@ public class Pair {
         return dealer.isTurn();
     }
 
-    public void finishDealerTurn() {
-        dealer.finishTurn();
+    public void finishPlayerTurn() {
+        if (user.isTurn()) {
+            user.finishTurn();
+        }
+
+        if (!user.isTurn()) {
+            dealer.finishTurn();
+        }
     }
+
 }

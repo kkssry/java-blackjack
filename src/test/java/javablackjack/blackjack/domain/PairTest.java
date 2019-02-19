@@ -5,6 +5,9 @@ import javablackjack.blackjack.util.NumberManager;
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class PairTest extends BaseTest {
@@ -12,7 +15,9 @@ public class PairTest extends BaseTest {
 
     @Test
     public void HitOrStandMethodTest() {
-        BlackjackGame blackjackGame = new BlackjackGame();
+        List<Card> aCard = new ArrayList<>();
+
+        BlackjackGame blackjackGame = new BlackjackGame(new CardDeck(aCard));
 
         Player player = new Player("peter");
         player.drawCard(new Card(Number.FIVE, CardPattern.DIAMOND));
@@ -22,7 +27,8 @@ public class PairTest extends BaseTest {
 
         blackjackGame.initUser(player, dealer);
 
-        blackjackGame.getPair().userChoiceHitOrStand(1);
+        aCard.add(new Card(Number.K,CardPattern.CLOVER));
+        blackjackGame.getPair().userChoiceHitOrStand(1,new CardDeck(aCard));
         log.debug("userScore : {}", player.score());
 
         softly.assertThat(dealer.isTurn()).isTrue();

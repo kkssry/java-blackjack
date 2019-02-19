@@ -1,9 +1,12 @@
 package javablackjack.blackjack.domain;
 
 import javablackjack.blackjack.BaseTest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 public class PlayerTest extends BaseTest {
+    private static final Logger log = LogManager.getLogger(PlayerTest.class);
 
     @Test
     public void player_have_money() {
@@ -14,7 +17,7 @@ public class PlayerTest extends BaseTest {
 
     @Test
     public void give_card_to_player() {
-        CardDeck cardDeck = new CardDeck();
+
         Player player = new Player("aa");
         player.drawCard(new Card(Number.A,CardPattern.CLOVER));
         player.drawCard(new Card(Number.SEVEN,CardPattern.CLOVER));
@@ -31,10 +34,10 @@ public class PlayerTest extends BaseTest {
         player.drawCard(new Card(Number.A,CardPattern.CLOVER));
         player.drawCard(new Card(Number.SEVEN,CardPattern.CLOVER));
         player.drawCard(new Card(Number.SIX,CardPattern.CLOVER));
+        log.debug("카드 점수 : {}",new Card(Number.A,CardPattern.CLOVER).getNum());
 
+        log.debug("플레이어 점수 : {}",player.score());
 
-        softly.assertThat(player.isBurst()).isTrue();
-        player.setOneA();
         softly.assertThat(player.score()).isEqualTo(14);
         softly.assertThat(player.isBurst()).isFalse();
 
@@ -47,8 +50,6 @@ public class PlayerTest extends BaseTest {
         player.drawCard(new Card(Number.SEVEN,CardPattern.CLOVER));
         player.drawCard(new Card(Number.SIX,CardPattern.CLOVER));
 
-        softly.assertThat(player.isBurst()).isTrue();
-        player.setOneA();
         softly.assertThat(player.score()).isEqualTo(14);
         softly.assertThat(player.isBurst()).isFalse();
 
@@ -60,14 +61,12 @@ public class PlayerTest extends BaseTest {
         player.drawCard(new Card(Number.A,CardPattern.CLOVER));
         player.drawCard(new Card(Number.A,CardPattern.DIAMOND));
 
-        softly.assertThat(player.isBurst()).isTrue();
-        player.setOneA();
         softly.assertThat(player.score()).isEqualTo(12);
         softly.assertThat(player.isBurst()).isFalse();
         // hit
         player.drawCard(new Card(Number.A,CardPattern.HEART));
-        softly.assertThat(player.isBurst()).isTrue();
-        player.setOneA();
+
+
         softly.assertThat(player.score()).isEqualTo(13);
         softly.assertThat(player.isBurst()).isFalse();
 
