@@ -3,9 +3,16 @@ package javablackjack.blackjack.domain;
 import javablackjack.blackjack.domain.cases.BurstCase;
 import javablackjack.blackjack.domain.cases.ResultCases;
 import javablackjack.blackjack.util.NumberManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 public class Pair {
+    private static final Logger log = LogManager.getLogger(Pair.class);
+
     private Player user;
     private Player dealer;
 
@@ -58,16 +65,26 @@ public class Pair {
         }
     }
 
+    //////////////////////////////////////////////////////////
+    public boolean isUserBurst() {
+        return user.isBurst();
+    }
 
-    ///////////////////////
+    public boolean isDealerBurst() {
+        return dealer.isBurst();
+    }
 
-    public boolean push() {
-        if (user.isTurn()) {
-            return user.isBlackjack() == dealer.isBlackjack();
-        } else {
-            return user.score() == dealer.score();
-        }
+    public boolean isPush() {
+        return user.isPush(dealer);
+    }
 
+
+    public boolean isUserWin() {
+        return user.isWin(dealer);
+    }
+
+    public boolean isDealerWin() {
+        return dealer.isWin(user);
     }
 
     /////////////////////////////
@@ -93,9 +110,11 @@ public class Pair {
     }
 
     public void dealerDrawCard(Card card) {
-        dealer.drawCard(card);
+        //todo player  상속하는 dealer 객채 생성
+        if (isDealerGetCard()) {
+            dealer.drawCard(card);
+        }
     }
-
 
     public boolean isDealerTurn() {
         return dealer.isTurn();
@@ -116,22 +135,19 @@ public class Pair {
     }
 
     public void increaseChip(GameResult gameResult, Chip chip) {
-        if (gameResult.equals(GameResult.USER_WIN)) {
-            user.winningChip(chip);
-        }
-        if (gameResult.equals(GameResult.PUSH)) {
-            user.pushChip(chip);
-        }
-        if (gameResult.equals(GameResult.BLACKJACK_USER_WIN)) {
-            user.blackjackChip(chip);
-        }
+        log.debug(gameResult);
 
-/*
-        Map<GameResult, Chip> cases = new HashMap<>();
-        cases.put(GameResult.USER_WIN, user.winningChip(chip));
-        cases.put(GameResult.PUSH, user.pushChip(chip));
-        cases.put(GameResult.BLACKJACK_USER_WIN, user.blackjackChip(chip));
-*/
+        Map<GameResult, Function<Chip, Chip>> cases = new HashMap<>();
+        cases.put(GameResult.USER_WIN, chip1 -> user.winningChip(chip1));
+        cases.put(GameResult.PUSH, chip1 -> user.pushChip(chip1));
+        cases.put(GameResult.BLACKJACK_USER_WIN, chip1 -> user.blackjackChip(chip1));
 
+        log.debug(cases.get(gameResult));
+        if (cases.containsKey(gameResult)) {
+            cases.get(gameResult).apply(chip);
+
+        }
     }
+
+
 }

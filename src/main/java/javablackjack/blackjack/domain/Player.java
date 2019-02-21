@@ -106,4 +106,26 @@ public class Player {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+
+    /// user.isBlackjackWin
+    public boolean isBlackjackWin(Player other) {
+        //this 가 블래잭이고 other 가 블랙잭 아니면 트루
+        return this.isBlackjack() && !other.isBlackjack();
+    }
+
+    public boolean isWin(Player other) {
+        if (this.isTurn()) {
+            return this.isBlackjackWin(other);
+        }
+        return this.compareScore(other);
+    }
+
+    public boolean isPush(Player other) {
+        if (this.isTurn()) {
+            return this.isBlackjack() && other.isBlackjack();
+        }
+        return this.score() == other.score();
+
+    }
 }

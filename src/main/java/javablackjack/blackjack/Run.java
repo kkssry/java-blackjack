@@ -23,11 +23,13 @@ public class Run {
 
         OutputResult.showCard(blackjackGame.getPair());
 
+        ///1. 블랙잭으로 승패확인 승패가 나면 턴종료, 아니면 result = 디폴트
         result = blackjackGame.checkBlackjack();
         blackjackGame.playerTurnFinish(result);
 
 
         //유저턴
+        ///2. 유저버스트로 승패확인 승패가 나면 턴종료, 아니면 result = 디폴트
         while (blackjackGame.isUserTurn()) {
             result = blackjackGame.userChoiceHitOrStand(input.choiceHitOrstand());
             blackjackGame.playerTurnFinish(result);
@@ -36,6 +38,7 @@ public class Run {
         }
 
         // 딜러턴
+        ///3. 딜러버스트로 승패확인 승패가 나면 턴종료, 아니면 result = 디폴트
         while (blackjackGame.isDealerTurn()) {
             result = blackjackGame.dealerTurn();
             blackjackGame.playerTurnFinish(result);
@@ -43,6 +46,7 @@ public class Run {
             OutputResult.showCard(blackjackGame.getPair());
         }
 
+        // 모든 턴종료시 스코어 비교해서 승패 결정
         if (result.isDefault()) {
             result = blackjackGame.winner();
         }

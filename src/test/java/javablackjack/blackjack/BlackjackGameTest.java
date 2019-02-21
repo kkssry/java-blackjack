@@ -6,6 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class BlackjackGameTest extends BaseTest {
@@ -19,16 +22,25 @@ public class BlackjackGameTest extends BaseTest {
 
     @Test
     public void 딜러셋업() {
-        BlackjackGame blackjackGame = new BlackjackGame(CardDeckFactory.create());
+        List<Card> list = new ArrayList<>();
+        list.add(new Card(Number.J, CardPattern.CLOVER));
+        list.add(new Card(Number.K, CardPattern.CLOVER));
+        list.add(new Card(Number.SEVEN, CardPattern.CLOVER));
+        list.add(new Card(Number.Q, CardPattern.CLOVER));
+        list.add(new Card(Number.TWO, CardPattern.CLOVER));
+
+        BlackjackGame blackjackGame = new BlackjackGame(new CardDeck(list));
         //player
         Player player = new Player("skull");
         Player dealer = new Player("dealer");
         blackjackGame.initUser(player, dealer);
 
         //카드를 블랙젝 게임에게 전달
-        blackjackGame.startGame(300);
+        blackjackGame.startGame(new Chip(300));
+
         blackjackGame.userChoiceHitOrStand(2);
         blackjackGame.dealerTurn();
+        log.debug("유저숫자 합 : {}", player.score());
         log.debug("딜러숫자 합 : {}", dealer.score());
         softly.assertThat(dealer.score() > 16).isTrue();
         log.debug("딜러버스트여부 : {}", dealer.isBurst());
@@ -178,7 +190,7 @@ public class BlackjackGameTest extends BaseTest {
         blackjackGame2.initUser(player, dealer);
         log.debug("ㄻㄴㄻㄴ{}",player.score());
 
-        softly.assertThat(blackjackGame2.checkBlackjack()).isEqualTo(GameResult.USER_WIN);
+        softly.assertThat(blackjackGame2.checkBlackjack()).isEqualTo(GameResult.BLACKJACK_USER_WIN);
 
     }
 
@@ -196,7 +208,120 @@ public class BlackjackGameTest extends BaseTest {
         dealer.drawCard(new Card(Number.K, CardPattern.SPADE));
 
         blackjackGame.initUser(player, dealer);
-        softly.assertThat(blackjackGame.checkBlackjack()).isEqualTo(GameResult.DEALER_WIN);
+        softly.assertThat(blackjackGame.checkBlackjack()).isEqualTo(GameResult.BLACKJACK_DEALER_WIN);
 
+    }
+
+
+    @Test
+    public void user_win_20() {
+        List<Card> list = new ArrayList<>();
+        list.add(new Card(Number.J, CardPattern.CLOVER));
+        list.add(new Card(Number.K, CardPattern.CLOVER));
+        list.add(new Card(Number.FIVE, CardPattern.CLOVER));
+        list.add(new Card(Number.Q, CardPattern.CLOVER));
+        list.add(new Card(Number.TWO, CardPattern.CLOVER));
+
+        BlackjackGame blackjackGame = new BlackjackGame(new CardDeck(list));
+        //player
+        Player player = new Player("skull");
+        Player dealer = new Player("dealer");
+        blackjackGame.initUser(player, dealer);
+
+        //카드를 블랙젝 게임에게 전달
+        blackjackGame.startGame(new Chip(300));
+
+        blackjackGame.userChoiceHitOrStand(2);
+        blackjackGame.dealerTurn();
+        log.debug("유저 카드 : {}", player.getCards());
+        log.debug("유저숫자 합 : {}", player.score());
+        log.debug("딜러 카드 : {}", dealer.getCards());
+        log.debug("딜러숫자 합 : {}", dealer.score());
+        softly.assertThat(dealer.score() > 16).isTrue();
+        log.debug("딜러버스트여부 : {}", dealer.isBurst());
+        softly.assertThat(blackjackGame.winner()).isEqualTo(GameResult.USER_WIN);
+    }
+
+    @Test
+    public void dealer_win_20() {
+        List<Card> list = new ArrayList<>();
+        list.add(new Card(Number.K, CardPattern.CLOVER));
+        list.add(new Card(Number.J, CardPattern.CLOVER));
+        list.add(new Card(Number.Q, CardPattern.CLOVER));
+        list.add(new Card(Number.FIVE, CardPattern.CLOVER));
+        list.add(new Card(Number.TWO, CardPattern.CLOVER));
+        list.add(new Card(Number.THREE, CardPattern.CLOVER));
+
+        BlackjackGame blackjackGame = new BlackjackGame(new CardDeck(list));
+        //player
+        Player player = new Player("skull");
+        Player dealer = new Player("dealer");
+        blackjackGame.initUser(player, dealer);
+
+        //카드를 블랙젝 게임에게 전달
+        blackjackGame.startGame(new Chip(300));
+
+        blackjackGame.userChoiceHitOrStand(1);
+        blackjackGame.userChoiceHitOrStand(2);
+        blackjackGame.dealerTurn();
+        log.debug("유저 카드 : {}", player.getCards());
+        log.debug("유저숫자 합 : {}", player.score());
+        log.debug("딜러 카드 : {}", dealer.getCards());
+        log.debug("딜러숫자 합 : {}", dealer.score());
+        softly.assertThat(dealer.score() > 16).isTrue();
+        log.debug("딜러버스트여부 : {}", dealer.isBurst());
+        softly.assertThat(blackjackGame.winner()).isEqualTo(GameResult.DEALER_WIN);
+    }
+
+    @Test
+    public void dealer_win_21() {
+        List<Card> list = new ArrayList<>();
+        list.add(new Card(Number.K, CardPattern.CLOVER));
+        list.add(new Card(Number.J, CardPattern.CLOVER));
+        list.add(new Card(Number.A, CardPattern.CLOVER));
+        list.add(new Card(Number.FIVE, CardPattern.CLOVER));
+
+        BlackjackGame blackjackGame = new BlackjackGame(new CardDeck(list));
+        //player
+        Player player = new Player("skull");
+        Player dealer = new Player("dealer");
+        blackjackGame.initUser(player, dealer);
+
+        //카드를 블랙젝 게임에게 전달
+        blackjackGame.startGame(new Chip(300));
+
+        log.debug("유저 카드 : {}", player.getCards());
+        log.debug("유저숫자 합 : {}", player.score());
+        log.debug("딜러 카드 : {}", dealer.getCards());
+        log.debug("딜러숫자 합 : {}", dealer.score());
+        softly.assertThat(dealer.score() > 16).isTrue();
+        log.debug("딜러버스트여부 : {}", dealer.isBurst());
+        softly.assertThat(blackjackGame.checkBlackjack()).isEqualTo(GameResult.BLACKJACK_DEALER_WIN);
+    }
+
+    @Test
+    public void user_win_21() {
+        List<Card> list = new ArrayList<>();
+        list.add(new Card(Number.K, CardPattern.CLOVER));
+        list.add(new Card(Number.J, CardPattern.CLOVER));
+        list.add(new Card(Number.FIVE, CardPattern.CLOVER));
+        list.add(new Card(Number.A, CardPattern.CLOVER));
+
+        BlackjackGame blackjackGame = new BlackjackGame(new CardDeck(list));
+        //player
+        Player player = new Player("skull");
+        Player dealer = new Player("dealer");
+        blackjackGame.initUser(player, dealer);
+
+        //카드를 블랙젝 게임에게 전달
+        blackjackGame.startGame(new Chip(300));
+
+        log.debug("유저 카드 : {}", player.getCards());
+        log.debug("유저숫자 합 : {}", player.score());
+        log.debug("딜러 카드 : {}", dealer.getCards());
+        log.debug("딜러숫자 합 : {}", dealer.score());
+        softly.assertThat(dealer.score() > 16).isFalse();
+        log.debug("딜러버스트여부 : {}", dealer.isBurst());
+        softly.assertThat(blackjackGame.checkBlackjack()).isEqualTo(GameResult.BLACKJACK_USER_WIN);
     }
 }

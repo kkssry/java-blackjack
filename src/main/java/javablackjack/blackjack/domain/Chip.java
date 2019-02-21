@@ -20,6 +20,6 @@ public class Chip {
     }
 
     public Chip blackjackPlus(Chip bettingChip) {
-        return new Chip((int) (this.chip + (bettingChip.chip*1.5)));
+        return new Chip((int) (this.chip + (bettingChip.chip * 1.5)));
     }
 }
