@@ -36,6 +36,39 @@ public class PairTest extends BaseTest {
     }
 
     @Test
+    public void player_win_increase_Chip() {
+        Player player = new Player("peter");
+        Player dealer = new Player("dealer");
+
+        Pair pair = new Pair(player,dealer);
+        pair.bettingChip(new Chip(200));
+        pair.increaseChip(GameResult.USER_WIN, new Chip(200));
+        softly.assertThat(player.getChip().getChip()).isEqualTo(700);
+    }
+
+    @Test
+    public void player_blackjack_increase_Chip() {
+        Player player = new Player("peter");
+        Player dealer = new Player("dealer");
+
+        Pair pair = new Pair(player,dealer);
+        pair.bettingChip(new Chip(200));
+        pair.increaseChip(GameResult.BLACKJACK_USER_WIN, new Chip(200));
+        softly.assertThat(player.getChip().getChip()).isEqualTo(800);
+    }
+
+    @Test
+    public void dealer_blakcjack_win_increase_Chip() {
+        Player player = new Player("peter");
+        Player dealer = new Player("dealer");
+
+        Pair pair = new Pair(player,dealer);
+        pair.bettingChip(new Chip(200));
+        pair.increaseChip(GameResult.BLACKJACK_DEALER_WIN, new Chip(200));
+        softly.assertThat(player.getChip().getChip()).isEqualTo(300);
+    }
+
+    @Test
     public void ScoreTest() {
         if (21 > NumberManager.BLACKJACK_NUMBER) {
             log.debug("adfasdfas");

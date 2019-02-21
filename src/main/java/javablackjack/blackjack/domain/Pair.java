@@ -3,7 +3,6 @@ package javablackjack.blackjack.domain;
 import javablackjack.blackjack.domain.cases.BurstCase;
 import javablackjack.blackjack.domain.cases.ResultCases;
 import javablackjack.blackjack.util.NumberManager;
-
 import java.util.function.Function;
 
 public class Pair {
@@ -29,6 +28,7 @@ public class Pair {
                 result = aCase.apply(this);
             }
         }
+
         return result;
     }
 
@@ -36,16 +36,12 @@ public class Pair {
     public GameResult userChoiceHitOrStand(int choiceNumber, CardDeck cardDeck) {
         if (choiceNumber == 1) {
             user.drawCard(cardDeck.drawCard());
-
             whenUserTwentyScore_finishTurn(user.isBlackjack());
-
         }
 
         if (choiceNumber == 2) {
             user.finishTurn();
         }
-
-
         return checkResultCase(new BurstCase());
     }
 
@@ -115,4 +111,27 @@ public class Pair {
         }
     }
 
+    public void bettingChip(Chip bettingChip) {
+        user.betting(bettingChip);
+    }
+
+    public void increaseChip(GameResult gameResult, Chip chip) {
+        if (gameResult.equals(GameResult.USER_WIN)) {
+            user.winningChip(chip);
+        }
+        if (gameResult.equals(GameResult.PUSH)) {
+            user.pushChip(chip);
+        }
+        if (gameResult.equals(GameResult.BLACKJACK_USER_WIN)) {
+            user.blackjackChip(chip);
+        }
+
+/*
+        Map<GameResult, Chip> cases = new HashMap<>();
+        cases.put(GameResult.USER_WIN, user.winningChip(chip));
+        cases.put(GameResult.PUSH, user.pushChip(chip));
+        cases.put(GameResult.BLACKJACK_USER_WIN, user.blackjackChip(chip));
+*/
+
+    }
 }

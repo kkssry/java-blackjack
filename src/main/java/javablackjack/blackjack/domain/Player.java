@@ -12,7 +12,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class Player {
     private static final Logger log = getLogger(Player.class);
 
-    private int money = 20;
+    private Chip chip;
     //todo : 1급 객체로 리팩토링 해야함.
     private List<Card> cards = new ArrayList<>();
     private String name;
@@ -20,6 +20,7 @@ public class Player {
 
     public Player(String userName) {
         this.name = userName;
+        chip = new Chip(NumberManager.INIT_CHIP);
     }
 
     public void drawCard(Card card) {
@@ -29,7 +30,6 @@ public class Player {
 
     public int score() {
         return cards.stream().mapToInt(Card::getNum).sum();
-
     }
 
     public List<Card> getCards() {
@@ -78,10 +78,30 @@ public class Player {
         return playerTurn;
     }
 
+    public Chip getChip() {
+        return chip;
+    }
+
+    public void betting(Chip chip) {
+        this.chip = this.chip.minus(chip);
+    }
+
+    public Chip winningChip(Chip chip) {
+        return this.chip = this.chip.plus(chip).plus(chip); //배팅한거 회수
+    }
+
+    public Chip pushChip(Chip chip) {
+        return this.chip = this.chip.plus(chip);
+    }
+
+    public Chip blackjackChip(Chip chip) {
+        return this.chip = this.chip.plus(chip).blackjackPlus(chip);
+    }
+
     @Override
     public String toString() {
         return "Player{" +
-                "money=" + money +
+                "chip=" + chip +
                 ", cards=" + cards +
                 ", name='" + name + '\'' +
                 '}';

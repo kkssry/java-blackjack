@@ -12,10 +12,8 @@ public class BlackjackCase extends AbstractResultCases {
     public List<Function<Pair, GameResult>> caseList() {
         List<Function<Pair, GameResult>> blackjack = new ArrayList<>();
         blackjack.add((pair) -> getGameResult(pair.getUser().isBlackjack(), pair.getDealer().isBlackjack(), GameResult.PUSH));  //default
-        blackjack.add((pair) -> getGameResult(pair.getUser().isBlackjack(), !pair.getDealer().isBlackjack(), GameResult.USER_WIN));    //user_win
-        blackjack.add((pair) -> getGameResult(!pair.getUser().isBlackjack(), pair.getDealer().isBlackjack(), GameResult.DEALER_WIN));   //deafult
+        blackjack.add((pair) -> getGameResult(pair.getUser().isBlackjack(), !pair.getDealer().isBlackjack(), GameResult.BLACKJACK_USER_WIN));    //user_win
+        blackjack.add((pair) -> getGameResult(!pair.getUser().isBlackjack(), pair.getDealer().isBlackjack(), GameResult.BLACKJACK_DEALER_WIN));   //deafult
         return blackjack;
     }
-
-
 }
