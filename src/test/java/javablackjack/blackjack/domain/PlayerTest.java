@@ -1,6 +1,7 @@
 package javablackjack.blackjack.domain;
 
 import javablackjack.blackjack.BaseTest;
+import javablackjack.blackjack.util.NumberManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -10,14 +11,32 @@ public class PlayerTest extends BaseTest {
 
     @Test
     public void player_have_money() {
-        Player player = new Player("bb");
-        //player.setMoney(3);
-//        softly.assertThat(player.hasMoney()).isEqualTo(3);
+        Player player = new Player("bb");;
+        softly.assertThat( player.getChip().getChip()).isEqualTo(500);
+    }
+
+    @Test
+    public void win_chip() {
+        Player player = new Player("peter");
+        Chip chip = new Chip(200);
+
+        player.betting(chip);
+        softly.assertThat(player.getChip().getChip()).isEqualTo(300);
+        player.winningChip(chip);
+
+        softly.assertThat(player.getChip().getChip()).isEqualTo(700);
+    }
+
+    @Test
+    public void lose_chip() {
+        Player player = new Player("peter");
+        Chip chip = new Chip(200);
+        player.betting(chip);
+        softly.assertThat(player.getChip().getChip()).isEqualTo(300);
     }
 
     @Test
     public void give_card_to_player() {
-
         Player player = new Player("aa");
         player.drawCard(new Card(Number.A,CardPattern.CLOVER));
         player.drawCard(new Card(Number.SEVEN,CardPattern.CLOVER));
@@ -102,6 +121,5 @@ public class PlayerTest extends BaseTest {
         player.setOneA();
         softly.assertThat(player.isContainElevenA()).isFalse();
         softly.assertThat(player.isBlackjack()).isTrue();
-
     }
 }

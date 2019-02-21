@@ -11,10 +11,15 @@ public class Run {
         GameResult result;
 
         Input input = new Input();
+
+
         BlackjackGame blackjackGame = new BlackjackGame(CardDeckFactory.create());
 
         blackjackGame.initUser(new Player(input.getString()), new Player("dealer"));
-        blackjackGame.startGame();
+
+        OutputResult.bettingChip();
+        Chip bettingChip = new Chip(input.getint());
+        blackjackGame.startGame(bettingChip);
 
         OutputResult.showCard(blackjackGame.getPair());
 
@@ -42,6 +47,7 @@ public class Run {
             result = blackjackGame.winner();
         }
 
+        blackjackGame.manageChip(result, bettingChip);
         OutputResult.showWinner(blackjackGame);
         OutputResult.resultPrint(result);
     }

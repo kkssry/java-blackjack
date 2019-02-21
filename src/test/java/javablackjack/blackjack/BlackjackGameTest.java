@@ -26,7 +26,7 @@ public class BlackjackGameTest extends BaseTest {
         blackjackGame.initUser(player, dealer);
 
         //카드를 블랙젝 게임에게 전달
-        blackjackGame.startGame();
+        blackjackGame.startGame(300);
         blackjackGame.userChoiceHitOrStand(2);
         blackjackGame.dealerTurn();
         log.debug("딜러숫자 합 : {}", dealer.score());
