@@ -1,6 +1,9 @@
 package javablackjack.blackjack;
 
 import javablackjack.blackjack.domain.*;
+import javablackjack.blackjack.domain.card.CardDeckFactory;
+import javablackjack.blackjack.domain.player.Dealer;
+import javablackjack.blackjack.domain.player.User;
 import javablackjack.blackjack.io.Input;
 import javablackjack.blackjack.io.OutputResult;
 
@@ -15,7 +18,7 @@ public class Run {
 
         BlackjackGame blackjackGame = new BlackjackGame(CardDeckFactory.create());
 
-        blackjackGame.initUser(new Player(input.getString()), new Player("dealer"));
+        blackjackGame.initUser(new User(input.getString()), new Dealer("dealer"));
 
         OutputResult.bettingChip();
         Chip bettingChip = new Chip(input.getint());

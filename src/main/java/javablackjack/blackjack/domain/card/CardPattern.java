@@ -1,4 +1,4 @@
-package javablackjack.blackjack.domain;
+package javablackjack.blackjack.domain.card;
 
 public enum CardPattern {
     SPADE("♠"), CLOVER("♣"), DIAMOND("◇"), HEART("♡");

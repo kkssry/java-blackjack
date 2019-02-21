@@ -1,8 +1,12 @@
 package javablackjack.blackjack.domain;
 
+import javablackjack.blackjack.domain.card.CardDeck;
 import javablackjack.blackjack.domain.cases.BlackjackCase;
 import javablackjack.blackjack.domain.cases.BurstCase;
 import javablackjack.blackjack.domain.cases.WinnerCase;
+import javablackjack.blackjack.domain.player.Dealer;
+import javablackjack.blackjack.domain.player.Pair;
+import javablackjack.blackjack.domain.player.User;
 import org.slf4j.Logger;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -17,8 +21,8 @@ public class BlackjackGame {
         this.cardDeck = cardDeck;
     }
 
-    public void initUser(Player player, Player dealer) {
-        pair = new Pair(player, dealer);
+    public void initUser(User user, Dealer dealer) {
+        pair = new Pair(user, dealer);
     }
 
     public void startGame(Chip bettingChip) {

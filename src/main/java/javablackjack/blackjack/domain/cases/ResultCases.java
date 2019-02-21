@@ -1,7 +1,7 @@
 package javablackjack.blackjack.domain.cases;
 
 import javablackjack.blackjack.domain.GameResult;
-import javablackjack.blackjack.domain.Pair;
+import javablackjack.blackjack.domain.player.Pair;
 
 import java.util.List;
 import java.util.function.Function;

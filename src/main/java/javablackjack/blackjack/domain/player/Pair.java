@@ -1,5 +1,9 @@
-package javablackjack.blackjack.domain;
+package javablackjack.blackjack.domain.player;
 
+import javablackjack.blackjack.domain.Chip;
+import javablackjack.blackjack.domain.GameResult;
+import javablackjack.blackjack.domain.card.Card;
+import javablackjack.blackjack.domain.card.CardDeck;
 import javablackjack.blackjack.domain.cases.BurstCase;
 import javablackjack.blackjack.domain.cases.ResultCases;
 import javablackjack.blackjack.util.NumberManager;
@@ -13,10 +17,10 @@ import java.util.function.Function;
 public class Pair {
     private static final Logger log = LogManager.getLogger(Pair.class);
 
-    private Player user;
-    private Player dealer;
+    private User user;
+    private Dealer dealer;
 
-    public Pair(Player user, Player dealer) {
+    public Pair(User user, Dealer dealer) {
         this.user = user;
         this.dealer = dealer;
     }
@@ -94,14 +98,14 @@ public class Pair {
     }
 
     public boolean isDealerGetCard() {
-        return dealer.score() < NumberManager.DEALER_NUMBER;
+        return dealer.isDrawCard();
     }
 
     public boolean isUserTurn() {
         return user.isTurn();
     }
 
-    public Player getUser() {
+    public User getUser() {
         return user;
     }
 
@@ -110,10 +114,7 @@ public class Pair {
     }
 
     public void dealerDrawCard(Card card) {
-        //todo player  상속하는 dealer 객채 생성
-        if (isDealerGetCard()) {
-            dealer.drawCard(card);
-        }
+        dealer.drawCardWithDealerTurn(card);
     }
 
     public boolean isDealerTurn() {

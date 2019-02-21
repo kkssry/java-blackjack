@@ -1,5 +1,6 @@
-package javablackjack.blackjack.domain;
+package javablackjack.blackjack.domain.card;
 
+import javablackjack.blackjack.domain.Number;
 import javablackjack.blackjack.util.NumberManager;
 
 import java.util.Objects;

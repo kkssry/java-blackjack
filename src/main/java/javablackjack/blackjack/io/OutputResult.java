@@ -2,7 +2,7 @@ package javablackjack.blackjack.io;
 
 import javablackjack.blackjack.domain.BlackjackGame;
 import javablackjack.blackjack.domain.GameResult;
-import javablackjack.blackjack.domain.Pair;
+import javablackjack.blackjack.domain.player.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
