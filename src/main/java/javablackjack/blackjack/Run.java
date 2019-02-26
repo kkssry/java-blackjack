@@ -15,12 +15,11 @@ public class Run {
 
         Input input = new Input();
 
-
         BlackjackGame blackjackGame = new BlackjackGame(CardDeckFactory.create());
-
         blackjackGame.initUser(new User(input.getString()), new Dealer("dealer"));
 
         OutputResult.bettingChip();
+
         Chip bettingChip = new Chip(input.getint());
         blackjackGame.startGame(bettingChip);
 
@@ -36,7 +35,6 @@ public class Run {
         while (blackjackGame.isUserTurn()) {
             result = blackjackGame.userChoiceHitOrStand(input.choiceHitOrstand());
             blackjackGame.playerTurnFinish(result);
-
             OutputResult.showCard(blackjackGame.getPair());
         }
 
@@ -45,7 +43,6 @@ public class Run {
         while (blackjackGame.isDealerTurn()) {
             result = blackjackGame.dealerTurn();
             blackjackGame.playerTurnFinish(result);
-
             OutputResult.showCard(blackjackGame.getPair());
         }
 

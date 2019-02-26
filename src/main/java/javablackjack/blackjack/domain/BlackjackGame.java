@@ -41,7 +41,6 @@ public class BlackjackGame {
     }
 
     public GameResult dealerTurn() {
-
         //todo  플레이어게 위임
         if (pair.isDealerGetCard()) {
             pair.dealerDrawCard(cardDeck.drawCard());
