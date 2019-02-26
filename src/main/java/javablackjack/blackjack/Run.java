@@ -16,10 +16,10 @@ public class Run {
         Input input = new Input();
 
         BlackjackGame blackjackGame = new BlackjackGame(CardDeckFactory.create());
-
         blackjackGame.initUser(new User(input.getString()), new Dealer("dealer"));
 
         OutputResult.bettingChip();
+
         Chip bettingChip = new Chip(input.getint());
         blackjackGame.startGame(bettingChip);
 
@@ -28,6 +28,8 @@ public class Run {
         ///1. 블랙잭으로 승패확인 승패가 나면 턴종료, 아니면 result = 디폴트
         result = blackjackGame.checkBlackjack();
         blackjackGame.playerTurnFinish(result);
+
+       // OutputResult.isDealerHaveJQKA(blackjackGame.getPair());
 
 
         //유저턴

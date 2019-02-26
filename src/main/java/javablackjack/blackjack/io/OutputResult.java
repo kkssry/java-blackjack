@@ -2,9 +2,12 @@ package javablackjack.blackjack.io;
 
 import javablackjack.blackjack.domain.BlackjackGame;
 import javablackjack.blackjack.domain.GameResult;
+import javablackjack.blackjack.domain.card.Card;
 import javablackjack.blackjack.domain.player.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.List;
 
 public class OutputResult {
     private static final Logger log = LogManager.getLogger(OutputResult.class);
@@ -14,7 +17,7 @@ public class OutputResult {
         System.out.println(pair.getUser().getName());
         System.out.println(pair.getUser().getCards());
         System.out.println(pair.getDealer().getName());
-        System.out.println(pair.getDealer().getCards());
+        System.out.println(pair.getDealer().getCards().get(0));
         System.out.println("----------------");
 
         log.debug("딜러의 총합 : {}", pair.getDealer().score());
@@ -35,4 +38,12 @@ public class OutputResult {
     public static void resultPrint(GameResult result) {
         System.out.println(result.getGameResult());
     }
+
+   /* public static void isDealerHaveJQKA(Pair pair) {
+       List<Card> aaa =  pair.getDealer().getCards();
+       if (aaa.get(0).equals()) {
+           엑션
+       }
+       ㄴㄴㄴ;
+    }*/
 }
