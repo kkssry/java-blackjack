@@ -1,7 +1,6 @@
-package javablackjack.blackjack;
+package javablackjack.blackjack.domain;
 
-import javablackjack.blackjack.domain.*;
-import javablackjack.blackjack.domain.Number;
+import javablackjack.blackjack.BaseTest;
 import javablackjack.blackjack.domain.card.Card;
 import javablackjack.blackjack.domain.card.CardDeck;
 import javablackjack.blackjack.domain.card.CardDeckFactory;
