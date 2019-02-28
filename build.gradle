@@ -1,20 +1,11 @@
-buildscript {
-	ext {
-		springBootVersion = '2.1.2.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+plugins {
+	id 'org.springframework.boot' version '2.1.3.RELEASE'
+	id 'java'
 }
 
-apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-group = 'java-blackjack'
+group = 'com.codesquad'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
@@ -25,9 +16,9 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compile('pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.1')
+
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testCompile group: 'junit', name: 'junit', version: '4.12'
-	testCompile("org.assertj:assertj-core:3.11.1")
-	testCompile('org.apache.httpcomponents:httpclient:4.5.6')
-	runtime('com.h2database:h2')
 }
