@@ -4,7 +4,7 @@
 		<div class="mdl-card__title" style="height:80px;">
 			<h2 class="mdl-card__title-text mdl-color-text--grey-800">Games</h2>
 		</div>
-		<a href="/gameRoom/form"
+		<a href="/gameRoom"
 		   class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored show-modal">
 			<i class="material-icons">add</i>
 		</a>
@@ -20,19 +20,19 @@
 									  alt="javajigi">
 							</a>
 							<a href="/gameRoom/{{id}}">
-								<strong>{{subject}}</strong>
+								<strong>{{title}}</strong>
 							</a>
 							<span class="mdl-list__item-sub-subject">
 								#1 Open
 								<relative-time datetime="{{formattedCreateDate}}"
 											   subject="{{formattedCreateDate}}">{{formattedCreateDate}}</relative-time>
-								by {{user_id}}<a href="" aria-label="View all issues opened by javajigi"
-									  class="tooltipped tooltipped-s muted-link">{{user_id}}</a>
+								by 작성자id로 수정<a href="" aria-label="View all issues opened by javajigi"
+									  class="tooltipped tooltipped-s muted-link">작성자id로 수정</a>
 							</span>
 						</span>
 					<span class="mdl-list__item-secondary-content">
 							<span class="material-icons mdl-badge mdl-badge--overlap"
-								  data-badge="1">comment</span>
+								  data-badge="1">내용으로 수정</span>
 						</span>
 				</li>
 				{{/games}}

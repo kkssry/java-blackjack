@@ -1,7 +1,7 @@
 package com.codesquad.blackjack.security;
 
-import codesquad.UnAuthenticationException;
-import codesquad.UnAuthorizedException;
+import com.codesquad.blackjack.UnAuthenticationException;
+import com.codesquad.blackjack.UnAuthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

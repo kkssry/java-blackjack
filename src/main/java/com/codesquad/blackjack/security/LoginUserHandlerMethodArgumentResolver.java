@@ -1,7 +1,7 @@
 package com.codesquad.blackjack.security;
 
-import codesquad.UnAuthenticationException;
-import codesquad.domain.User;
+import com.codesquad.blackjack.UnAuthenticationException;
+import com.codesquad.blackjack.domain.WebUser;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -17,7 +17,7 @@ public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgu
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        User user = HttpSessionUtils.getUserFromSession(webRequest);
+        WebUser user = HttpSessionUtils.getUserFromSession(webRequest);
         if (!user.isGuestUser()) {
             return user;
         }

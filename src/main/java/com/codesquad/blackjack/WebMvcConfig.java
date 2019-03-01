@@ -1,7 +1,7 @@
 package com.codesquad.blackjack;
 
-import codesquad.security.BasicAuthInterceptor;
-import codesquad.security.LoginUserHandlerMethodArgumentResolver;
+import com.codesquad.blackjack.security.BasicAuthInterceptor;
+import com.codesquad.blackjack.security.LoginUserHandlerMethodArgumentResolver;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
