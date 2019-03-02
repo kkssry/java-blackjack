@@ -16,9 +16,13 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
 	compile('pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.1')
+	compile('org.springframework.boot:spring-boot-devtools')
 
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	runtime('net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1')
 }

@@ -1,8 +1,6 @@
 package com.codesquad.blackjack.domain;
 
 
-import com.codesquad.blackjack.AbstractEntity;
-
 import javax.persistence.Entity;
 
 @Entity

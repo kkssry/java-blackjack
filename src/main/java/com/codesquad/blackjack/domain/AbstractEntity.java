@@ -1,4 +1,4 @@
-package com.codesquad.blackjack;
+package com.codesquad.blackjack.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
