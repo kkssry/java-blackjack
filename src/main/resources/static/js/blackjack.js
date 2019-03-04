@@ -1,13 +1,12 @@
 // 댓글쓰기
 var socket = null;
 
-$("#peter100").on("click", connectWS);
-function connectWS(e) {
+$("document").ready(connectWS);
+function connectWS() {
 
-    e.preventDefault();
     console.log("tttt")
 
-    var ws = new WebSocket("ws://192.168.0.3:8080/blackjackGame")
+    var ws = new WebSocket("ws://localhost:8080/blackjackGame")
     socket = ws;
 
     ws.onopen = function () {
@@ -16,12 +15,10 @@ function connectWS(e) {
 
     ws.onmessage = function (event) {
         console.log('ReceiveMessage', event.data + '\n');
-        var socketAlert = $("#game_comment_text");
+        var socketAlert = $("#game_userCard_text");
 
         console.log(socketAlert);
         socketAlert.append(event.data + '<br>');
-
-
 
     }
 }
@@ -34,13 +31,41 @@ function submitMessage(e) {
     var queryString = $(".submit-write-answer").serialize(); //form data들을 자동으로 묶어준다.
     console.log("query : "+ queryString)
     console.log("query : "+ queryString.replace(/%/g, '%25'))
-
-
     socket.send(queryString);
 
 }
 
 
+$('#milestone-menu').on('click',showHitButton)
+
+function showHitButton(e) {
+    e.preventDefault()
+
+    console.log("메세지")
+    $('.hit-or-stand').css('display','block');
+    $('#milestone-menu').css('display','none');
+}
+
+function startGame() {
+
+}
+
+
+function userChoiceHitOrStand() {
+
+
+}
+
+$('#label-menu').on('click',hit)
+function hit(e) {
+    var abc = $("#game_dealerCard_text");
+    abc.text("카드 1");
+
+}
+
+function whenUserTurnFinish() {
+
+}
 
 String.prototype.format = function() {
     var args = arguments;

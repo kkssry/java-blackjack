@@ -1,9 +1,8 @@
 package com.codesquad.blackjack;
 
-import org.apache.catalina.manager.util.SessionUtils;
+import com.codesquad.blackjack.domain.WebUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -25,6 +24,11 @@ public class BlackjackGameHandler extends TextWebSocketHandler {
         log.info("소켓생성");
         log.debug("나는 websession 입니다.{}", session.getId());
         log.debug("나는 어트리뷰트 입니다.{}", session.getAttributes());
+
+        Map<String, Object> map = session.getAttributes();
+        WebUser user = (WebUser) map.get("loginedUser");
+        log.debug("유저아이디 : {} ", user.getUserId());
+
         webSocketSessions.put(session.getId(), session);
     }
 
@@ -34,9 +38,22 @@ public class BlackjackGameHandler extends TextWebSocketHandler {
         String decodedData = URLDecoder.decode(message.getPayload(), "UTF-8");
         log.debug("dsfasdf {}", decodedData);
 
+        Map<String, Object> map = session.getAttributes();
+        WebUser user = (WebUser) map.get("loginedUser");
+        log.debug("유저아이디 : {} ", user.getUserId());
+
+
         // 유저가 히트 했습니다.
+
+
         for (WebSocketSession session1 : webSocketSessions.values()) {
-            session1.sendMessage(new TextMessage(session.getId() + ": " + decodedData));
+            if (user.getUserId() != null) {
+                session1.sendMessage(new TextMessage(user.getUserId()+ ": " + decodedData));
+
+            } else {
+                session1.sendMessage(new TextMessage(session.getId() + ": " + decodedData));
+
+            }
         }
     }
 

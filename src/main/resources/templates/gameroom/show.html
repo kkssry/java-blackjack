@@ -6,7 +6,6 @@
     </a>
 </div>
 
-
 <div class="issues__posts mdl-grid">
     <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
         <div class="mdl-card__menu">
@@ -36,41 +35,27 @@
                 </div>
                 <span>{{formattedCreateDate}}</span>
             </div>
-            <a href="/issue/{{id}}/setOpen" id="peter100" class="mdl-button mdl-button--colored mdl-js-button">
-                웹소켓 열기
-            </a>
 
             <div class="section-spacer"></div>
 
-            <button id="milestone-menu" class="mdl-button mdl-js-button">
-                Milestone
+            <button id="milestone-menu" class="mdl-button mdl-js-button"style="display:block">
+                GameStart
             </button>
-            <!-- milestone list -->
-            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect milestones"
-                for="milestone-menu">
-                <div id="select-milestones" about="/api/issue/{{id}}/milestones"></div>
-            </ul>
 
-            <button id="label-menu" class="mdl-button mdl-js-button">
-                Label
+            <button id="label-menu" class="mdl-button mdl-js-button hit-or-stand" style="display:none">
+                Hit
             </button>
-            <!-- label list -->
-            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-                for="label-menu">
-                <div id="select-labels" about="/api/issue/{{id}}/labels"></div>
-            </ul>
 
-            <button id="assignee-menu" class="mdl-button mdl-js-button">
-                Assignee
+            <button id="assignee-menu" class="mdl-button mdl-js-button hit-or-stand" style="display:none">
+                Stand
             </button>
-            <!-- label list -->
-            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-                for="assignee-menu">
-                <div id="select-assignees" about="/api/issue/{{id}}/assignees"></div>
-            </ul>
         </div>
         <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
-            <p id="game_comment_text"></p>
+            <p>딜러 카드</p>
+            <p id="game_dealerCard_text">{}{}</p>
+            <p>     </p>
+            <p>유저 카드</p>
+            <p id="game_userCard_text">{}{}</p>
         </div>
         <div class="mdl-color-text--primary-contrast mdl-card__supporting-text comments" id="comment_list">
 
@@ -133,7 +118,6 @@
         </div>
     </div>
 </div>
-
 
 <script type="text/template" id="answerTemplate">
     <div class="comment mdl-color-text--grey-700 answer_form" id="answer_{4}">
@@ -202,5 +186,16 @@
 </script>
 
 {{/partial}}
+
+
+
+{{#partial "script"}}
+<script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.3/dialog-polyfill.min.js"></script>
+<script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>
+<script src="/js/jquery-2.2.0.min.js"></script>
+<script src="/js/blackjack.js"></script>
+{{/partial}}
+
 {{> base }}
 
