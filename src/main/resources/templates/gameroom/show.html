@@ -38,15 +38,15 @@
 
             <div class="section-spacer"></div>
 
-            <button id="milestone-menu" class="mdl-button mdl-js-button"style="display:block">
+            <button id="game-start-button" class="mdl-button mdl-js-button"style="display:block">
                 GameStart
             </button>
 
-            <button id="label-menu" class="mdl-button mdl-js-button hit-or-stand" style="display:none">
+            <button id="hit-button" class="mdl-button mdl-js-button hit-or-stand" style="display:none">
                 Hit
             </button>
 
-            <button id="assignee-menu" class="mdl-button mdl-js-button hit-or-stand" style="display:none">
+            <button id="stand-button" class="mdl-button mdl-js-button hit-or-stand" style="display:none">
                 Stand
             </button>
         </div>
@@ -96,13 +96,6 @@
 
             <!-- comments end -->
         </div>
-        <form class="submit-file-answer" action="/api/issue/{{id}}/answers/uploadFile" enctype="multipart/form-data"
-              method="POST">
-            <div style="margin:10px;">
-                <input type="file" name="file" id="file"/>
-                <button class="mdl-button" type="submit">upload file</button>
-            </div>
-        </form>
         <div class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment">
             <form class="submit-write-answer" action="/api/issue/{{id}}/answers" method="POST">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">

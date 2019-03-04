@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/gameRoom")
@@ -31,7 +32,8 @@ public class GameRoomController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable long id, Model model) {
+    public String show(@PathVariable long id, Model model, HttpSession session) {
+        session.setAttribute("room",id);
         GameRoom gameRoom = gameRoomService.findById(id);
         model.addAttribute("gameRoom",gameRoom);
         return "/gameRoom/show";
