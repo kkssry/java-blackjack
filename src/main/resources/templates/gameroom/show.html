@@ -7,6 +7,13 @@
 </div>
 
 <div class="issues__posts mdl-grid">
+    <!--<div style="flex-basis:150;flex-shrink:0;float:left;width:33%">-->
+        <!--sdfnoasnofawenofnoa-->
+
+        <!--<h2>asdasdsa</h2>-->
+        <!--asdfsdahjfoiwehroweornosdf-->
+    <!--</div>-->
+
     <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
         <div class="mdl-card__menu">
             <a href="/issue/{{id}}/form" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
@@ -52,48 +59,15 @@
         </div>
         <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
             <p>딜러 카드</p>
-            <p id="game_dealerCard_text">{}{}</p>
+            <p id="game_dealerCard_text"></p>
             <p>     </p>
             <p>유저 카드</p>
-            <p id="game_userCard_text">{}{}</p>
+            <p id="game_userCard_text"></p>
         </div>
         <div class="mdl-color-text--primary-contrast mdl-card__supporting-text comments" id="comment_list">
 
             <!-- comments start -->
-            {{#answers}}
-            <div class="comment mdl-color-text--grey-700 answer_form" id="answer_{{id}}">
-                <header class="comment__header">
-                    <img class="comment__avatar2" height="48" width="48"
-                         src="/img/{{user.id}}" alt="{{userId}}">
-                    <div class="comment__author">
-                        <strong>
-                            <a>{{userId}}</a>
-
-
-                            <span>{{comment}}
-                                <a href="/img/download/{{imageFile.id}}">{{imageFile.originName}}</a>
-                                on  {{formattedCreateDate}}</span>
-
-                            <a href="/api/issue/{{issue.id}}/answers/{{id}}"
-                               class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect updateFrom_answer"
-                               id="updateForm_{{id}}">
-                                <i class="material-icons">edit</i>
-                            </a>
-                            <form style="display:inline-block" class="submit-write-delete" id="delete_{{id}}"
-                                  action="/api/issue/{{issue.id}}/answers/{{id}}" method="POST">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button class="mdl-button mdl-js-button mdl-button--icon" type="submit">
-                                    <i class="material-icons">delete</i>
-                                </button>
-                            </form>
-
-                        </strong>
-                    </div>
-                </header>
-                <hr>
-            </div>
-            {{/answers}}
-
+            <p id="chat-content">hhhhhhhhhhhhhhhhhhhh</p>
             <!-- comments end -->
         </div>
         <div class="mdl-color-text--primary-contrast mdl-card__supporting-text new-comment">
@@ -114,7 +88,7 @@
 
 <script type="text/template" id="answerTemplate">
     <div class="comment mdl-color-text--grey-700 answer_form" id="answer_{4}">
-        <header class="comment__header">
+        <header class="comment__header"
             <img class="comment__avatar2" height="48" width="48"
                  src="/img/{5}" alt="{0}">
             <div class="comment__author">

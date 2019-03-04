@@ -1,8 +1,8 @@
-package com.codesquad.blackjack.security;
+package com.codesquad.blackjack.web.security;
 
-import com.codesquad.blackjack.UnAuthenticationException;
-import com.codesquad.blackjack.domain.WebUser;
-import com.codesquad.blackjack.service.UserService;
+import com.codesquad.blackjack.Exception.UnAuthenticationException;
+import com.codesquad.blackjack.web.domain.WebUser;
+import com.codesquad.blackjack.web.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

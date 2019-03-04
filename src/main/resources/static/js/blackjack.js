@@ -5,7 +5,7 @@ $("document").ready(connectWS);
 function connectWS() {
 
     console.log("tttt")
-    var ws = new WebSocket("ws://" +  document.URL.substring(7,document.URL.length-10) + "/blackjackGame")
+    var ws = new WebSocket("ws://" +  document.URL.substring(7,document.URL.length-10) + "blackjackGame")
     socket = ws;
 
     ws.onopen = function () {
@@ -15,16 +15,21 @@ function connectWS() {
     ws.onmessage = function (event) {
         console.log('ReceiveMessage', event.data + '\n');
         var stringA = event.data;
-        var bbb = stringA.split(":");
+        var bbb = stringA.split("=");
 
         if(bbb[0] == "user") {
             var socketAlert = $("#game_userCard_text");
+            socketAlert.text(bbb[1]);
         }
         if(bbb[0] == "dealer") {
             var socketAlert = $("#game_dealerCard_text");
+            socketAlert.text(bbb[1]);
         }
-        console.log(socketAlert);
-        socketAlert.text(bbb[1]);
+        if(bbb[0] == "comment") {
+            var chat = $("#chat-content");
+            chat.append(bbb[1]);
+        }
+
 
     }
 }
@@ -50,7 +55,7 @@ function showHitButton(e) {
     $('#game-start-button').css('display','none');
     var bettingchip = prompt("배팅할 칩을 입력하세요");
 
-    socket.send("bettingchip "+bettingchip);
+    socket.send("bettingchip="+bettingchip);
     console.log(bettingchip);
 }
 
@@ -66,10 +71,14 @@ function userChoiceHitOrStand() {
 
 $('#hit-button').on('click',hit)
 function hit(e) {
-    var abc = $("#game_dealerCard_text");
-    abc.text("카드 1");
-
+    socket.send("hitOrStand=hit");
 }
+
+$('#stand-button').on('click',stand)
+function stand(e) {
+    socket.send("hitOrStand=stand");
+}
+
 
 function whenUserTurnFinish() {
 

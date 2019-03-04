@@ -1,9 +1,8 @@
-package com.codesquad.blackjack.web;
+package com.codesquad.blackjack.web.controller;
 
-import com.codesquad.blackjack.domain.WebUser;
-import com.codesquad.blackjack.domain.player.User;
-import com.codesquad.blackjack.security.HttpSessionUtils;
-import com.codesquad.blackjack.service.UserService;
+import com.codesquad.blackjack.web.domain.WebUser;
+import com.codesquad.blackjack.web.security.HttpSessionUtils;
+import com.codesquad.blackjack.web.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

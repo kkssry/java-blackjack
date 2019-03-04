@@ -1,8 +1,8 @@
-package com.codesquad.blackjack.service;
+package com.codesquad.blackjack.web.service;
 
-import com.codesquad.blackjack.UnAuthorizedException;
-import com.codesquad.blackjack.domain.GameRoom;
-import com.codesquad.blackjack.domain.GameRoomRepository;
+import com.codesquad.blackjack.Exception.UnAuthorizedException;
+import com.codesquad.blackjack.web.domain.GameRoom;
+import com.codesquad.blackjack.web.repository.GameRoomRepository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

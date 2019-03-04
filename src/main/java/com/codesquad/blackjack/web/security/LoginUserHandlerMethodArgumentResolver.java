@@ -1,7 +1,7 @@
-package com.codesquad.blackjack.security;
+package com.codesquad.blackjack.web.security;
 
-import com.codesquad.blackjack.UnAuthenticationException;
-import com.codesquad.blackjack.domain.WebUser;
+import com.codesquad.blackjack.Exception.UnAuthenticationException;
+import com.codesquad.blackjack.web.domain.WebUser;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;

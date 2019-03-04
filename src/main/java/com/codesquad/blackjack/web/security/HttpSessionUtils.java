@@ -1,6 +1,6 @@
-package com.codesquad.blackjack.security;
+package com.codesquad.blackjack.web.security;
 
-import com.codesquad.blackjack.domain.WebUser;
+import com.codesquad.blackjack.web.domain.WebUser;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.WebRequest;
 

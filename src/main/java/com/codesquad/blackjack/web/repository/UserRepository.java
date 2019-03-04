@@ -1,6 +1,6 @@
-package com.codesquad.blackjack.domain.player;
+package com.codesquad.blackjack.web.repository;
 
-import com.codesquad.blackjack.domain.WebUser;
+import com.codesquad.blackjack.web.domain.WebUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

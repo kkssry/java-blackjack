@@ -1,7 +1,7 @@
-package com.codesquad.blackjack.web;
+package com.codesquad.blackjack.web.controller;
 
-import com.codesquad.blackjack.security.HttpSessionUtils;
-import com.codesquad.blackjack.service.UserService;
+import com.codesquad.blackjack.web.security.HttpSessionUtils;
+import com.codesquad.blackjack.web.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
