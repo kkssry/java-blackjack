@@ -1,4 +1,4 @@
-package com.codesquad.blackjack;
+package com.codesquad.blackjack.Exception;
 
 public class UnAuthorizedException extends RuntimeException {
     private static final long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package com.codesquad.blackjack.security;
+package com.codesquad.blackjack.web.security;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -21,13 +21,15 @@ public class BlackjackGame {
         this.cardDeck = cardDeck;
     }
 
-    public void initUser(User user, Dealer dealer) {
+    public BlackjackGame initUser(User user, Dealer dealer) {
         pair = new Pair(user, dealer);
+        return this;
     }
 
-    public void startGame(Chip bettingChip) {
+    public BlackjackGame startGame(Chip bettingChip) {
         pair.bettingChip(bettingChip);
         pair.releaseInitCards(cardDeck);
+        return this;
     }
 
     public GameResult checkBlackjack() {

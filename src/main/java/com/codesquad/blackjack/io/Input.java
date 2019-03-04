@@ -1,6 +1,6 @@
 package com.codesquad.blackjack.io;
 
-import com.codesquad.blackjack.NotAllowInputException;
+import com.codesquad.blackjack.Exception.NotAllowInputException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

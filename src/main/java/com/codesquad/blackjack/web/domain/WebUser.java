@@ -1,4 +1,4 @@
-package com.codesquad.blackjack.domain;
+package com.codesquad.blackjack.web.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,4 +1,4 @@
-package com.codesquad.blackjack;
+package com.codesquad.blackjack.Exception;
 
 public class NotAllowInputException extends RuntimeException{
 }
