@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 @EnableJpaAuditing
 public class BlackjackApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(BlackjackApplication.class, args);
 	}
