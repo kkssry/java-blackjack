@@ -15,23 +15,53 @@ function connectWS() {
     ws.onmessage = function (event) {
         console.log('ReceiveMessage', event.data + '\n');
         var stringA = event.data;
-        var bbb = stringA.split("=");
+        var messageFromJAVA = stringA.split("=");
 
-        if(bbb[0] == "user") {
+        if(messageFromJAVA[0] == "user") {
             var socketAlert = $("#game_userCard_text");
-            socketAlert.text(bbb[1]);
-        }
-        if(bbb[0] == "dealer") {
-            var socketAlert = $("#game_dealerCard_text");
-            socketAlert.text(bbb[1]);
-        }
-        if(bbb[0] == "comment") {
-            var chat = $("#chat-content");
-            chat.append(bbb[1]);
+            socketAlert.text(messageFromJAVA[1]);
         }
 
+        if(messageFromJAVA[0] == "dealer") {
+            var socketAlert = $("#game_dealerCard_text");
+            socketAlert.text(messageFromJAVA[1]);
+        }
+
+        if(messageFromJAVA[0] == "comment") {
+            var chat = $("#chat-content");
+            chat.append(messageFromJAVA[1]);
+        }
+
+        if(messageFromJAVA[0] == "result") {
+            console.log(messageFromJAVA[1]);
+            if(!isDefault(messageFromJAVA[1])) {
+                alert(messageFromJAVA[1]);
+            }
+        }
 
     }
+}
+
+function isDefault(gameResult) {
+
+    if(gameResult === null) {
+        console.log("null")
+        console.log(gameResult)
+        return true;
+    }
+
+    if(gameResult == " ") {
+            console.log("blank")
+            console.log(gameResult)
+            return true;
+        }
+
+    if(gameResult === "") {
+        console.log("not null")
+        console.log(gameResult)
+        return true;
+        }
+    return false;
 }
 
 $(".submit-write-answer button[type=submit]").on("click", submitMessage);
@@ -42,8 +72,6 @@ function submitMessage(e) {
     console.log("query : "+ queryString)
     console.log("query : "+ queryString.replace(/%/g, '%25'))
     socket.send(queryString);   //클라이언트가 서버에 메시지를 보낸다.
-
-
 }
 
 

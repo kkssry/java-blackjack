@@ -11,7 +11,8 @@ import org.slf4j.Logger;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class BlackjackGame {
+public class
+BlackjackGame {
     private static final Logger log = getLogger(BlackjackGame.class);
 
     private Pair pair;
