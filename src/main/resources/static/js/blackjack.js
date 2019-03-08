@@ -26,7 +26,7 @@ function connectWS() {
             var socketAlert = $("#game_dealerCard_text");
             socketAlert.text(messageFromJAVA[1]);
         }
-        
+
         if(messageFromJAVA[0] == "comment") {
             var chat = $("#chat-content");
             chat.append(messageFromJAVA[1]);
