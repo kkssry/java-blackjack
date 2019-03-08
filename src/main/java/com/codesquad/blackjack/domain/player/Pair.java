@@ -46,7 +46,7 @@ public class Pair {
     public GameResult userChoiceHitOrStand(int choiceNumber, CardDeck cardDeck) {
         if (choiceNumber == 1) {
             user.drawCard(cardDeck.drawCard());
-            whenUserTwentyScore_finishTurn(user.isBlackjack());
+            whenUserTwentyOneScore_finishTurn(user.isBlackjack());
         }
 
         if (choiceNumber == 2) {
@@ -55,8 +55,8 @@ public class Pair {
         return checkResultCase(new BurstCase());
     }
 
-    private void whenUserTwentyScore_finishTurn(boolean isTwentyScore) {
-        if (isTwentyScore) {
+    private void whenUserTwentyOneScore_finishTurn(boolean isTwentyOneScore) {
+        if (isTwentyOneScore) {
             user.finishTurn();
         }
 
