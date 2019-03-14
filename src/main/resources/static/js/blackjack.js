@@ -34,8 +34,15 @@ function connectWS() {
 
         if(messageFromJAVA[0] == "result") {
             console.log(messageFromJAVA[1]);
+
+
             if(!isDefault(messageFromJAVA[1])) {
-                alert(messageFromJAVA[1]);
+                $('.hit-or-stand').css('display','none');
+                $('#game-start-button').css('display','block');
+                setTimeout(function(){
+                    alert(messageFromJAVA[1]);
+                }, 500);
+
             }
         }
 
@@ -43,19 +50,6 @@ function connectWS() {
 }
 
 function isDefault(gameResult) {
-
-    if(gameResult === null) {
-        console.log("null")
-        console.log(gameResult)
-        return true;
-    }
-
-    if(gameResult == " ") {
-            console.log("blank")
-            console.log(gameResult)
-            return true;
-        }
-
     if(gameResult === "") {
         console.log("not null")
         console.log(gameResult)
