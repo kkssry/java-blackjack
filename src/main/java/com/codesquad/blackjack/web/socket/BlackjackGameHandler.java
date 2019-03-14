@@ -8,6 +8,7 @@ import com.codesquad.blackjack.domain.player.User;
 import com.codesquad.blackjack.web.domain.WebUser;
 import com.codesquad.blackjack.web.service.BlackjackGameService;
 import com.codesquad.blackjack.web.service.GameRoomService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class BlackjackGameHandler extends TextWebSocketHandler {
 
     @Autowired
     private GameRoomService gameRoomService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -76,12 +80,14 @@ public class BlackjackGameHandler extends TextWebSocketHandler {
 
 
             result = blackjackGame.checkBlackjack();
+            blackjackGame.playerTurnFinish(result);
             // 유저 카드 출력
+
+            String json = objectMapper.writeValueAsString(blackjackGame);
+
             for (WebSocketSession value : webSocketSessions.values()) {
                 if (value.getAttributes().get("room").equals(room)) {
-                    value.sendMessage(new TextMessage("user=" + blackjackGame.getPair().getUser().getCards().toString()));
-                    value.sendMessage(new TextMessage("dealer=" + blackjackGame.getPair().getDealer().getCards().toString()));//sendMesesage : 클라이언트 화면에 출력
-                    value.sendMessage(new TextMessage("result=" + result.getGameResult()));
+                    value.sendMessage(new TextMessage(json));
                 }
             }
             return;
@@ -102,17 +108,26 @@ public class BlackjackGameHandler extends TextWebSocketHandler {
 
                 if (messageFromJS[1].equals("stand")) {
                     result = blackjackGame.userChoiceHitOrStand(2);
-                    
+                    while (blackjackGame.isDealerTurn()) {
+                        result = blackjackGame.dealerTurn();
+                        blackjackGame.playerTurnFinish(result);
+                    }
 
-
+                    if (result.isDefault()) {
+                        result = blackjackGame.winner();
+                    }
                 }
 
-                blackjackGame.playerTurnFinish(result);
+
+//                blackjackGame.manageChip(result, bettingChip);
+                String json = objectMapper.writeValueAsString(blackjackGame);
+                log.debug("제이슨스트링으로 변환 : {}",json);
                 for (WebSocketSession value : webSocketSessions.values()) {
                     if (value.getAttributes().get("room").equals(room)) {
-                        value.sendMessage(new TextMessage("user=" + blackjackGame.getPair().getUser().getCards().toString()));
-                        value.sendMessage(new TextMessage("dealer=" + blackjackGame.getPair().getDealer().getCards().toString()));//sendMesesage : 클라이언트 화면에 출력
-                        value.sendMessage(new TextMessage("result=" + result.getGameResult()));
+                        //sendMesesage : 클라이언트 화면에 출력
+                        value.sendMessage(new TextMessage(json));
+                       // value.sendMessage(new TextMessage("result=" + result.getGameResult()));
+
                     }
                 }
 

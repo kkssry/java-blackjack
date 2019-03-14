@@ -46,8 +46,8 @@ public class UserTest extends BaseTest {
         user.drawCard(new Card(Number.SEVEN, CardPattern.CLOVER));
 
         softly.assertThat(user.getCards().get(0)).isNotNull();
-        softly.assertThat(user.getCards().get(0).getNum()).isEqualTo(11);
-        softly.assertThat(user.getCards().get(1).getNum()).isEqualTo(7);
+        softly.assertThat(user.getCards().get(0).bringNum()).isEqualTo(11);
+        softly.assertThat(user.getCards().get(1).bringNum()).isEqualTo(7);
 
     }
 
@@ -57,7 +57,7 @@ public class UserTest extends BaseTest {
         user.drawCard(new Card(Number.A, CardPattern.CLOVER));
         user.drawCard(new Card(Number.SEVEN, CardPattern.CLOVER));
         user.drawCard(new Card(Number.SIX, CardPattern.CLOVER));
-        log.debug("카드 점수 : {}", new Card(Number.A, CardPattern.CLOVER).getNum());
+        log.debug("카드 점수 : {}", new Card(Number.A, CardPattern.CLOVER).bringNum());
 
         log.debug("플레이어 점수 : {}", user.score());
 

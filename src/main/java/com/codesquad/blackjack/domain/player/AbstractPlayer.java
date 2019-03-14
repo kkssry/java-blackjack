@@ -21,7 +21,7 @@ public abstract class AbstractPlayer implements Player {
     }
 
     public int score() {
-        return cards.stream().mapToInt(Card::getNum).sum();
+        return cards.stream().mapToInt(Card::bringNum).sum();
     }
 
     public List<Card> getCards() {

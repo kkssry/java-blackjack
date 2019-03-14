@@ -1,6 +1,6 @@
 // 댓글쓰기
 var socket = null;
-
+var dealerCardLength = 0;
 $("document").ready(connectWS);
 function connectWS() {
 
@@ -14,7 +14,29 @@ function connectWS() {
 
     ws.onmessage = function (event) {
         console.log('ReceiveMessage', event.data + '\n');
-        var stringA = event.data;
+
+
+        var obj = JSON.parse(event.data);
+        console.log(obj);
+
+        console.log("유저출력")
+        console.log(obj.pair.dealer.cards);
+
+
+        var user_text = $("#game_userCard_text");
+        var showUserCards = obj.pair.user.cards[0].card;
+        for (var i = 1; i < obj.pair.user.cards.length; i++ ) {
+            showUserCards += ", " + obj.pair.user.cards[i].card
+        }
+        user_text.text(showUserCards);
+
+        var dealer_text = $("#game_dealerCard_text");
+        dealer_text.text(obj.pair.dealer.cards[0].card);
+
+
+
+
+        /*var stringA = event.data;
         var messageFromJAVA = stringA.split("=");
 
         if(messageFromJAVA[0] == "user") {
@@ -24,7 +46,20 @@ function connectWS() {
 
         if(messageFromJAVA[0] == "dealer") {
             var socketAlert = $("#game_dealerCard_text");
-            socketAlert.text(messageFromJAVA[1]);
+            console.log('스컬쓰읍하지마여' , messageFromJAVA[1])
+            var dealerCard = messageFromJAVA[1].split(',');
+            var showDealerCards = '';
+            dealerCardLength = dealerCard.length;
+            for (var i = 0; i < dealerCard.length; i++ ) {
+                showDealerCards += dealerCard[i]
+                if  (i == 1) {
+                    socketAlert.text(showDealerCards);
+                }
+
+                if  (i > 1) {
+                    delayPrint(i, showDealerCards);
+                }
+            }
         }
 
         if(messageFromJAVA[0] == "comment") {
@@ -34,19 +69,23 @@ function connectWS() {
 
         if(messageFromJAVA[0] == "result") {
             console.log(messageFromJAVA[1]);
-
-
             if(!isDefault(messageFromJAVA[1])) {
                 $('.hit-or-stand').css('display','none');
                 $('#game-start-button').css('display','block');
                 setTimeout(function(){
                     alert(messageFromJAVA[1]);
-                }, 500);
+                }, 500 * dealerCardLength);
 
             }
-        }
-
+        }*/
     }
+}
+
+function delayPrint(i, showDealerCards) {
+    setTimeout(function() {
+                var socketAlert = $("#game_dealerCard_text");
+                    socketAlert.text(showDealerCards);
+                }, 500 *i);
 }
 
 function isDefault(gameResult) {
@@ -85,20 +124,16 @@ function startGame() {
 
 }
 
-
-function userChoiceHitOrStand() {
-
-
-}
-
 $('#hit-button').on('click',hit)
 function hit(e) {
     socket.send("hitOrStand=hit");
+
 }
 
 $('#stand-button').on('click',stand)
 function stand(e) {
     socket.send("hitOrStand=stand");
+
 }
 
 

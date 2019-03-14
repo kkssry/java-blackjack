@@ -14,7 +14,7 @@ public class OutputResult {
         System.out.println(pair.getUser().getName());
         System.out.println(pair.getUser().getCards());
         System.out.println(pair.getDealer().getName());
-        System.out.println(pair.getDealer().getCards().get(0));
+        System.out.println(pair.getDealer().getCards());
         System.out.println("----------------");
 
         log.debug("딜러의 총합 : {}", pair.getDealer().score());

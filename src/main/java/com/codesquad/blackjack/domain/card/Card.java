@@ -16,7 +16,7 @@ public class Card {
         this.pattern = pattern;
     }
 
-    public int getNum() {
+    public int bringNum() {
         if (isOneA) {
             return NumberManager.ONE_A;
         }
@@ -25,6 +25,10 @@ public class Card {
 
     public void setIsOneA() {
         this.isOneA = true;
+    }
+
+    public String getCard() {
+        return "[" + num.name() + " , " + pattern + "]";
     }
 
     @Override
