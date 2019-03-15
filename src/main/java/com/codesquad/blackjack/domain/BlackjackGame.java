@@ -26,8 +26,7 @@ public class BlackjackGame {
         return this;
     }
 
-    public BlackjackGame startGame(Chip bettingChip) {
-        pair.bettingChip(bettingChip);
+    public BlackjackGame startGame() {
         pair.releaseInitCards(cardDeck);
         return this;
     }
@@ -55,8 +54,8 @@ public class BlackjackGame {
         return pair.checkResultCase(new BurstCase());
     }
 
-    public void manageChip(GameResult gameResult, Chip bettingChip) {
-        pair.increaseChip(gameResult, bettingChip);
+    public void manageChip(GameResult gameResult) {
+        pair.increaseChip(gameResult);
     }
 
     public GameResult userChoiceHitOrStand(int choiceNumber) {

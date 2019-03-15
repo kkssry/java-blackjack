@@ -1,6 +1,5 @@
 package com.codesquad.blackjack.domain.player;
 
-import com.codesquad.blackjack.domain.Chip;
 import com.codesquad.blackjack.domain.GameResult;
 import com.codesquad.blackjack.domain.card.Card;
 import com.codesquad.blackjack.domain.card.CardDeck;
@@ -9,8 +8,6 @@ import com.codesquad.blackjack.domain.cases.ResultCases;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 public class Pair {
@@ -130,23 +127,27 @@ public class Pair {
         }
     }
 
-    public void bettingChip(Chip bettingChip) {
-        user.betting(bettingChip);
-    }
+  /*  public void bettingChip(Chip bettingChip) {
+        user.loseChip(bettingChip);
+    }*/
 
-    public void increaseChip(GameResult gameResult, Chip chip) {
+    public void increaseChip(GameResult gameResult ) {
         log.debug(gameResult);
 
-        Map<GameResult, Function<Chip, Chip>> cases = new HashMap<>();
-        cases.put(GameResult.USER_WIN, chip1 -> user.winningChip(chip1));
-        cases.put(GameResult.PUSH, chip1 -> user.pushChip(chip1));
-        cases.put(GameResult.BLACKJACK_USER_WIN, chip1 -> user.blackjackChip(chip1));
-
-        log.debug(cases.get(gameResult));
-        if (cases.containsKey(gameResult)) {
-            cases.get(gameResult).apply(chip);
-
+        if (gameResult == GameResult.USER_WIN) {
+            user.winningChip();
+            return;
         }
+        if (gameResult == GameResult.PUSH) {
+            user.pushChip();
+            return;
+        }
+        if (gameResult == GameResult.BLACKJACK_USER_WIN) {
+            user.blackjackChip();
+            return;
+        }
+
+        user.loseChip();
     }
 
 

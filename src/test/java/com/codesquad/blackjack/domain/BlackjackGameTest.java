@@ -39,7 +39,7 @@ public class BlackjackGameTest extends BaseTest {
         blackjackGame.initUser(user, dealer);
 
         //카드를 블랙젝 게임에게 전달
-        blackjackGame.startGame(new Chip(300));
+        blackjackGame.startGame();
 
         blackjackGame.userChoiceHitOrStand(2);
         blackjackGame.dealerTurn();
@@ -232,7 +232,7 @@ public class BlackjackGameTest extends BaseTest {
         blackjackGame.initUser(user, dealer);
 
         //카드를 블랙젝 게임에게 전달
-        blackjackGame.startGame(new Chip(300));
+        blackjackGame.startGame();
 
         blackjackGame.userChoiceHitOrStand(2);
         blackjackGame.dealerTurn();
@@ -262,7 +262,7 @@ public class BlackjackGameTest extends BaseTest {
         blackjackGame.initUser(user, dealer);
 
         //카드를 블랙젝 게임에게 전달
-        blackjackGame.startGame(new Chip(300));
+        blackjackGame.startGame();
 
         blackjackGame.userChoiceHitOrStand(1);
         blackjackGame.userChoiceHitOrStand(2);
@@ -291,7 +291,7 @@ public class BlackjackGameTest extends BaseTest {
         blackjackGame.initUser(user, dealer);
 
         //카드를 블랙젝 게임에게 전달
-        blackjackGame.startGame(new Chip(300));
+        blackjackGame.startGame();
 
         log.debug("유저 카드 : {}", user.getCards());
         log.debug("유저숫자 합 : {}", user.score());
@@ -317,7 +317,7 @@ public class BlackjackGameTest extends BaseTest {
         blackjackGame.initUser(user, dealer);
 
         //카드를 블랙젝 게임에게 전달
-        blackjackGame.startGame(new Chip(300));
+        blackjackGame.startGame();
 
         log.debug("유저 카드 : {}", user.getCards());
         log.debug("유저숫자 합 : {}", user.score());

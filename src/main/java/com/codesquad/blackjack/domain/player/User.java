@@ -9,37 +9,46 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class User extends AbstractPlayer {
     private static final Logger log = getLogger(User.class);
 
-    private Chip chip;
+
+    private Chip bettingChip;
     //todo : 1급 객체로 리팩토링 해야함.
 
     public User(String userName) {
-        super(userName);
-        chip = new Chip(NumberManager.INIT_CHIP);
+        this(userName, new Chip(NumberManager.INIT_CHIP));
     }
 
-    public void betting(Chip chip) {
-        this.chip = this.chip.minus(chip);
+    public User(String name, Chip chip) {
+        super(name);
+        this.bettingChip = chip;
     }
 
-    public Chip winningChip(Chip chip) {
-        return this.chip = this.chip.plus(chip).plus(chip); //배팅한거 회수
+    public void loseChip() {
+        this.bettingChip = this.bettingChip.minus(bettingChip);
     }
 
-    public Chip pushChip(Chip chip) {
-        return this.chip = this.chip.plus(chip);
+    public Chip winningChip() {
+        return this.bettingChip = this.bettingChip.plus(bettingChip).plus(bettingChip); //배팅한거 회수
     }
 
-    public Chip blackjackChip(Chip chip) {
-        return this.chip = this.chip.plus(chip).blackjackPlus(chip);
+    public Chip pushChip() {
+        return this.bettingChip.plus(bettingChip);
     }
 
-    public Chip getChip() {
-        return chip;
+    public Chip blackjackChip() {
+        return this.bettingChip = this.bettingChip.plus(bettingChip).blackjackPlus(bettingChip);
+    }
+
+    public Chip getBettingChip() {
+        return bettingChip;
+    }
+
+    public void setBettingChip(Chip bettingChip) {
+        this.bettingChip = bettingChip;
     }
 
     @Override
     public String toString() {
-        return super.toString() + "chip=" + chip;
+        return super.toString() + "chip=" + bettingChip;
 
     }
 

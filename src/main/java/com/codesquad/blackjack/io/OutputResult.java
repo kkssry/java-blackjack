@@ -25,7 +25,7 @@ public class OutputResult {
         System.out.println();
         System.out.println("딜러의 총합 : " + blackjackGame.getPair().getDealer().score());
         System.out.println("유저의 총합 : " + blackjackGame.getPair().getUser().score());
-        System.out.println("보유 칩 : " + blackjackGame.getPair().getUser().getChip().getChip());
+        System.out.println("보유 칩 : " + blackjackGame.getPair().getUser().getBettingChip().getChip());
     }
 
     public static void bettingChip() {

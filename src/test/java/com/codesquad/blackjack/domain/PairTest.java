@@ -48,9 +48,8 @@ public class PairTest extends BaseTest {
         Dealer dealer = new Dealer("dealer");
 
         Pair pair = new Pair(user, dealer);
-        pair.bettingChip(new Chip(200));
-        pair.increaseChip(GameResult.USER_WIN, new Chip(200));
-        softly.assertThat(user.getChip().getChip()).isEqualTo(700);
+        pair.increaseChip(GameResult.USER_WIN);
+        softly.assertThat(user.getBettingChip().getChip()).isEqualTo(700);
     }
 
     @Test
@@ -59,9 +58,9 @@ public class PairTest extends BaseTest {
         Dealer dealer = new Dealer("dealer");
 
         Pair pair = new Pair(user, dealer);
-        pair.bettingChip(new Chip(200));
-        pair.increaseChip(GameResult.BLACKJACK_USER_WIN, new Chip(200));
-        softly.assertThat(user.getChip().getChip()).isEqualTo(800);
+
+        pair.increaseChip(GameResult.BLACKJACK_USER_WIN);
+        softly.assertThat(user.getBettingChip().getChip()).isEqualTo(800);
     }
 
     @Test
@@ -70,9 +69,9 @@ public class PairTest extends BaseTest {
         Dealer dealer = new Dealer("dealer");
 
         Pair pair = new Pair(user, dealer);
-        pair.bettingChip(new Chip(200));
-        pair.increaseChip(GameResult.BLACKJACK_DEALER_WIN, new Chip(200));
-        softly.assertThat(user.getChip().getChip()).isEqualTo(300);
+
+        pair.increaseChip(GameResult.BLACKJACK_DEALER_WIN);
+        softly.assertThat(user.getBettingChip().getChip()).isEqualTo(300);
     }
 
     @Test

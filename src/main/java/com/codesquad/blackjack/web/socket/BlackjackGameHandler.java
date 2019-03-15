@@ -3,11 +3,13 @@ package com.codesquad.blackjack.web.socket;
 import com.codesquad.blackjack.domain.BlackjackGame;
 import com.codesquad.blackjack.domain.Chip;
 import com.codesquad.blackjack.domain.GameResult;
+import com.codesquad.blackjack.domain.OutputView;
 import com.codesquad.blackjack.domain.player.Dealer;
 import com.codesquad.blackjack.domain.player.User;
 import com.codesquad.blackjack.web.domain.WebUser;
 import com.codesquad.blackjack.web.service.BlackjackGameService;
 import com.codesquad.blackjack.web.service.GameRoomService;
+import com.codesquad.blackjack.web.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,9 +28,7 @@ import java.util.Map;
 public class BlackjackGameHandler extends TextWebSocketHandler {
     private static final Logger log = LogManager.getLogger(BlackjackGameHandler.class);
 
-
     Map<String, WebSocketSession> webSocketSessions = new HashMap<>();
-    Map<Long, BlackjackGame> gameMap = new HashMap<>();
 
     @Autowired
     private BlackjackGameService blackjackGameService;
@@ -37,29 +37,20 @@ public class BlackjackGameHandler extends TextWebSocketHandler {
     private GameRoomService gameRoomService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         log.info("소켓생성");
-        log.debug("나는 websession 입니다.{}", session.getId());
-        log.debug("나는 어트리뷰트 입니다.{}", session.getAttributes());
-
-
-        log.debug("URL은 : {}", session.getUri());
-        log.debug("프로토콜 : {}", session.getAcceptedProtocol());
-
-        Map<String, Object> map = session.getAttributes();
-        WebUser user = (WebUser) map.get("loginedUser");
-        log.debug("유저아이디 : {} ", user.getUserId());
-
         webSocketSessions.put(session.getId(), session);
     }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String decodedData = URLDecoder.decode(message.getPayload(), "UTF-8");
-
 
         Map<String, Object> map = session.getAttributes();
         WebUser user = (WebUser) map.get("loginedUser");
@@ -69,13 +60,16 @@ public class BlackjackGameHandler extends TextWebSocketHandler {
         //리팩터링 해야함
         Long room = (Long) map.get("room");
         int index = room.intValue();
+        Chip bettingChip;
 
         if (messageFromJS[0].equals("bettingchip")) {
-
+            bettingChip = new Chip(Integer.parseInt(messageFromJS[1]));
             BlackjackGame blackjackGame = blackjackGameService.clear(index)
-                    .initUser(new User(user.getUserId()), new Dealer("dealer"))
-                    .startGame(new Chip(Integer.parseInt(messageFromJS[1])));
+                    .initUser(new User(user.getUserId(),bettingChip), new Dealer("dealer"))
+                    .startGame();
+
             log.debug("블랙잭 1: {}", blackjackGame);
+            user.setChip(user.getChip().minus(bettingChip));
             blackjackGameService.save(index, blackjackGame);
 
 
@@ -83,8 +77,16 @@ public class BlackjackGameHandler extends TextWebSocketHandler {
             blackjackGame.playerTurnFinish(result);
             // 유저 카드 출력
 
-            String json = objectMapper.writeValueAsString(blackjackGame);
-
+            blackjackGame.manageChip(result);
+            log.debug(" 배팅 칩 : {}", blackjackGame.getPair().getUser().getBettingChip());
+            Chip chip = user.getChip().plus(blackjackGame.getPair().getUser().getBettingChip());
+            log.debug("칩 : {} ", chip.toString());
+            if (result != GameResult.DEFAULT) {
+                user.setChip(chip);
+            }
+            userService.add(user);
+            OutputView abc = new OutputView(blackjackGame.getPair(),result);
+            String json = objectMapper.writeValueAsString(abc);
             for (WebSocketSession value : webSocketSessions.values()) {
                 if (value.getAttributes().get("room").equals(room)) {
                     value.sendMessage(new TextMessage(json));
@@ -119,8 +121,19 @@ public class BlackjackGameHandler extends TextWebSocketHandler {
                 }
 
 
-//                blackjackGame.manageChip(result, bettingChip);
-                String json = objectMapper.writeValueAsString(blackjackGame);
+                blackjackGame.manageChip(result);
+                log.debug(" 배팅 칩 : {}", blackjackGame.getPair().getUser().getBettingChip());
+
+                Chip chip = user.getChip().plus(blackjackGame.getPair().getUser().getBettingChip());
+                if (result != GameResult.DEFAULT) {
+                    user.setChip(chip);
+                }
+                log.debug("칩 : {} ", chip.toString());
+                userService.add(user);
+
+
+                OutputView abc = new OutputView(blackjackGame.getPair(),result);
+                String json = objectMapper.writeValueAsString(abc);
                 log.debug("제이슨스트링으로 변환 : {}",json);
                 for (WebSocketSession value : webSocketSessions.values()) {
                     if (value.getAttributes().get("room").equals(room)) {

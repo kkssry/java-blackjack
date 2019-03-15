@@ -16,27 +16,26 @@ public class UserTest extends BaseTest {
     public void player_have_money() {
         User user = new User("bb");
         ;
-        softly.assertThat(user.getChip().getChip()).isEqualTo(500);
+        softly.assertThat(user.getBettingChip().getChip()).isEqualTo(500);
     }
 
     @Test
     public void win_chip() {
-        User user = new User("peter");
         Chip chip = new Chip(200);
+        User user = new User("peter",chip);
 
-        user.betting(chip);
-        softly.assertThat(user.getChip().getChip()).isEqualTo(300);
-        user.winningChip(chip);
+        softly.assertThat(user.getBettingChip().getChip()).isEqualTo(200);
+        user.winningChip();
 
-        softly.assertThat(user.getChip().getChip()).isEqualTo(700);
+        softly.assertThat(user.getBettingChip().getChip()).isEqualTo(400);
     }
 
     @Test
     public void lose_chip() {
         User user = new User("peter");
         Chip chip = new Chip(200);
-        user.betting(chip);
-        softly.assertThat(user.getChip().getChip()).isEqualTo(300);
+        user.loseChip(chip);
+        softly.assertThat(user.getBettingChip().getChip()).isEqualTo(300);
     }
 
     @Test

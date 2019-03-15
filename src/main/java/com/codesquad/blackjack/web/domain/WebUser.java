@@ -1,5 +1,6 @@
 package com.codesquad.blackjack.web.domain;
 
+import com.codesquad.blackjack.domain.Chip;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -19,6 +20,9 @@ public class WebUser {
     private String userId;
 
     private String password;
+
+    @Embedded
+    private Chip chip;
 
     public WebUser() {
     }
@@ -45,6 +49,14 @@ public class WebUser {
 
     public boolean matchPassword(String password) {
         return this.password.equals(password);
+    }
+
+    public Chip getChip() {
+        return chip;
+    }
+
+    public void setChip(Chip chip) {
+        this.chip = chip;
     }
 
     @JsonIgnore
